@@ -1,0 +1,55 @@
+import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { AppModule } from 'src/app.module';
+import { ApplicationDriver } from 'test/application-driver';
+import { DBCleaner } from 'test/db-cleaner';
+
+describe('user controller', () => {
+  let app: INestApplication;
+  let driver: ApplicationDriver;
+  let dbCleaner: DBCleaner;
+  let server;
+
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+
+    dbCleaner = DBCleaner.for(app);
+    driver = new ApplicationDriver(app);
+    await driver.setup();
+
+    server = await app.listen(3000);
+    await app.init();
+  });
+
+  afterAll(async () => {
+    await driver.teardown();
+    await app.close();
+    await server.close();
+  });
+
+  beforeEach(async () => {
+    await dbCleaner.clean();
+  });
+
+  it('create user', async () => {
+    const name = 'joao';
+    const user = await driver.createUser(name);
+    expect(user.name).toEqual(name);
+  });
+
+  it('finds created user', async () => {
+    const user = await driver.createUser('joao');
+    const found = await driver.findUser(user.id);
+    expect(found).toEqual(user);
+  });
+
+  it('lists created users', async () => {
+    const user = await driver.createUser('joao');
+    const users = await driver.listUsers();
+    expect(users).toContainEqual(user);
+  });
+});
