@@ -5,6 +5,7 @@ import { ConfigModule } from './config';
 import { HealthModule } from './health';
 import { LoggerModule } from './logger.module';
 import { ORMModule } from './orm.module';
+import { QueueModule } from './queue.module';
 import { UserModule } from './user';
 
 @Module({
@@ -16,6 +17,7 @@ import { UserModule } from './user';
     EventEmitterModule.forRoot({ global: true, wildcard: true }),
     UserModule,
     PrometheusModule.register(),
+    QueueModule,
   ],
 })
 export class AppModule {}

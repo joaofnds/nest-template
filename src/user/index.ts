@@ -1,4 +1,7 @@
+export * from './errors';
+export * from './events';
 export * from './mikro.repository';
+export * from './queues';
 export * from './user.controller';
 export * from './user.entity';
 export * from './user.module';

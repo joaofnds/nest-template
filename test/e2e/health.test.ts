@@ -3,10 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { ApplicationDriver } from 'test/application-driver';
 
-describe('AppController (e2e)', () => {
+describe('/health', () => {
   let app: INestApplication;
   let driver: ApplicationDriver;
-  let server;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,14 +15,12 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     driver = new ApplicationDriver(app);
     await driver.setup();
-    server = await app.listen(3000);
-    await app.init();
+    await app.listen(3000);
   });
 
   afterAll(async () => {
     await driver.teardown();
     await app.close();
-    await server.close();
   });
 
   it('/health', async () => {

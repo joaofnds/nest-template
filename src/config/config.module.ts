@@ -3,7 +3,12 @@ import {
   ConfigService,
   ConfigModule as NestConfigModule,
 } from '@nestjs/config';
-import { AppConfig, ConfigLoader, DatabaseConfig } from 'src/config';
+import {
+  AppConfig,
+  ConfigLoader,
+  DatabaseConfig,
+  RedisConfig,
+} from 'src/config';
 
 @Module({
   imports: [
@@ -21,9 +26,14 @@ import { AppConfig, ConfigLoader, DatabaseConfig } from 'src/config';
     {
       provide: DatabaseConfig,
       inject: [AppConfig],
-      useFactory: (config: AppConfig): DatabaseConfig => config.database,
+      useFactory: (config: AppConfig) => config.database,
+    },
+    {
+      provide: RedisConfig,
+      inject: [AppConfig],
+      useFactory: (config: AppConfig) => config.redis,
     },
   ],
-  exports: [AppConfig, DatabaseConfig],
+  exports: [AppConfig, DatabaseConfig, RedisConfig],
 })
 export class ConfigModule {}

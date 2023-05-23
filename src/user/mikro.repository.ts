@@ -1,5 +1,7 @@
+import { DriverException, NotFoundError } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
+import { RepositoryError, NotFoundError as UserNotFoundError } from './errors';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
 
@@ -11,8 +13,20 @@ export class MikroRepository implements UserRepository {
     await this.entityManager.persistAndFlush(user);
   }
 
-  find(id: string): Promise<User> {
-    return this.entityManager.findOneOrFail(User, { id });
+  async find(id: string): Promise<User> {
+    try {
+      return await this.entityManager.findOneOrFail(User, { id });
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw new UserNotFoundError(id);
+      }
+      if (
+        error instanceof DriverException &&
+        error.message.includes('invalid input syntax for type uuid')
+      ) {
+        throw new RepositoryError('invalid uuid: ' + id);
+      }
+    }
   }
 
   findAll() {

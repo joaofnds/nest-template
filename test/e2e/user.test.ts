@@ -4,11 +4,10 @@ import { AppModule } from 'src/app.module';
 import { ApplicationDriver } from 'test/application-driver';
 import { DBCleaner } from 'test/db-cleaner';
 
-describe('user controller', () => {
+describe('/users', () => {
   let app: INestApplication;
   let driver: ApplicationDriver;
   let dbCleaner: DBCleaner;
-  let server;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -20,15 +19,12 @@ describe('user controller', () => {
     dbCleaner = DBCleaner.for(app);
     driver = new ApplicationDriver(app);
     await driver.setup();
-
-    server = await app.listen(3000);
-    await app.init();
+    await app.listen(3000);
   });
 
   afterAll(async () => {
     await driver.teardown();
     await app.close();
-    await server.close();
   });
 
   beforeEach(async () => {

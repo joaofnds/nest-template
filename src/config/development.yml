@@ -1,2 +1,5 @@
 database:
   uri: postgres://postgres:postgres@localhost:5432/template
+
+redis:
+  uri: redis://localhost:6379
