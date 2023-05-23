@@ -76,4 +76,13 @@ program.command('check').action(async () => {
   );
 });
 
+program
+  .command('create')
+  .argument('<name>', 'name of the migration')
+  .action((name) =>
+    withORM((o) =>
+      o.getMigrator().createMigration('./src/migrations', true, false, name),
+    ),
+  );
+
 program.parse();
