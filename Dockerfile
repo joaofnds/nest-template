@@ -12,7 +12,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production
 
 
-FROM gcr.io/distroless/nodejs:20
+FROM gcr.io/distroless/nodejs20:nonroot
 
 ENV NODE_ENV=production
 USER 1000
