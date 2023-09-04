@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["src/main.ts", "src/migration.ts", "src/migrations"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+	"extends": "./tsconfig.json",
+	"include": ["src/main.ts", "src/migration.ts", "src/migrations"],
+	"exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

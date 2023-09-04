@@ -1,7 +1,7 @@
-import { User } from '../user.entity';
+import { User } from "../user.entity";
 
 export class UserCreatedEvent {
-  static readonly EventName = 'user.created';
+	static readonly EventName = "user.created";
 
-  constructor(readonly context: string, readonly user: User) {}
+	constructor(readonly context: string, readonly user: User) {}
 }

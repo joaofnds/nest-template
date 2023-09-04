@@ -1,88 +1,88 @@
-import { MikroORM } from '@mikro-orm/core';
-import { Module } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { Command, InvalidArgumentError } from 'commander';
-import { ConfigModule } from './config';
-import { ORMModule } from './orm.module';
+import { MikroORM } from "@mikro-orm/core";
+import { Module } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { Command, InvalidArgumentError } from "commander";
+import { ConfigModule } from "./config";
+import { ORMModule } from "./orm.module";
 
 @Module({ imports: [ConfigModule, ORMModule] })
 class Migration {}
 
-async function withORM(f: (orm: MikroORM) => any) {
-  const app = await NestFactory.createApplicationContext(Migration, {
-    logger: false,
-  });
-  const orm = await app.resolve(MikroORM);
-  await f(orm);
-  await orm.close();
-  await app.close();
+async function withORM(f: (orm: MikroORM) => unknown) {
+	const app = await NestFactory.createApplicationContext(Migration, {
+		logger: false,
+	});
+	const orm = await app.resolve(MikroORM);
+	await f(orm);
+	await orm.close();
+	await app.close();
 }
 
 function parseInteger(value) {
-  const parsedValue = parseInt(value, 10);
-  if (isNaN(parsedValue)) {
-    throw new InvalidArgumentError('Not a number.');
-  }
-  return parsedValue;
+	const parsedValue = parseInt(value, 10);
+	if (isNaN(parsedValue)) {
+		throw new InvalidArgumentError("Not a number.");
+	}
+	return parsedValue;
 }
 
 function parseOptions(options) {
-  if (options.name !== undefined) {
-    return options.name;
-  } else if (options.to !== undefined) {
-    return { to: options.to };
-  } else {
-    return null;
-  }
+	if (options.name !== undefined) {
+		return options.name;
+	} else if (options.to !== undefined) {
+		return { to: options.to };
+	} else {
+		return null;
+	}
 }
 
 const program = new Command();
 
 program
-  .name('migrate')
-  .description('run Mikro-ORM migrations')
-  .version('0.0.1');
+	.name("migrate")
+	.description("run Mikro-ORM migrations")
+	.version("0.0.1");
 
 program
-  .command('up')
-  .option('-n, --name [migration]', 'runs only given migration, up')
-  .option(
-    '-t, --to [migration]',
-    'runs migrations up to given version',
-    parseInteger,
-  )
-  .action(async (opt) => {
-    await withORM(async (o) => await o.getMigrator().up(parseOptions(opt)));
-  });
+	.command("up")
+	.option("-n, --name [migration]", "runs only given migration, up")
+	.option(
+		"-t, --to [migration]",
+		"runs migrations up to given version",
+		parseInteger,
+	)
+	.action(async (opt) => {
+		await withORM(async (o) => await o.getMigrator().up(parseOptions(opt)));
+	});
 
 program
-  .command('down')
-  .option('-n, --name [migration]', 'runs only given migration, up')
-  .option(
-    '-t, --to [migration]',
-    'runs migrations up to given version',
-    parseInteger,
-  )
-  .action(async (opt) => {
-    await withORM(async (o) => await o.getMigrator().down(parseOptions(opt)));
-  });
+	.command("down")
+	.option("-n, --name [migration]", "runs only given migration, up")
+	.option(
+		"-t, --to [migration]",
+		"runs migrations up to given version",
+		parseInteger,
+	)
+	.action(async (opt) => {
+		await withORM(async (o) => await o.getMigrator().down(parseOptions(opt)));
+	});
 
-program.command('check').action(async () => {
-  await withORM(async (o) =>
-    console.log(
-      'migration needed?',
-      await o.getMigrator().checkMigrationNeeded(),
-    ),
-  );
+program.command("check").action(async () => {
+	await withORM(async (o) =>
+		console.log(
+			"migration needed?",
+			await o.getMigrator().checkMigrationNeeded(),
+		),
+	);
 });
 
 program
-  .command('create')
-  .argument('<name>', 'name of the migration')
-  .action((name) =>
-    withORM((o) =>
-      o.getMigrator().createMigration('./src/migrations', true, false, name),
-    ),
-  );
+	.command("create")
+	.argument("<name>", "name of the migration")
+	.action((name) =>
+		withORM((o) =>
+			o.getMigrator().createMigration("./src/migrations", true, false, name),
+		),
+	);
 
 program.parse();

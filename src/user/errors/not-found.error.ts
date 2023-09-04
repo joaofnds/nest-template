@@ -1,7 +1,7 @@
-import { UserError } from './user-error';
+import { UserError } from "./user-error";
 
 export class NotFoundError extends UserError {
-  constructor(userID: string) {
-    super('user not found: ' + userID);
-  }
+	constructor(userID: string) {
+		super(`user not found: ${userID}`);
+	}
 }

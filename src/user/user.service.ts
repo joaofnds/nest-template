@@ -1,31 +1,31 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UserEmitter } from './events';
-import { MikroRepository } from './mikro.repository';
-import { User } from './user.entity';
-import { UserRepository } from './user.repository';
+import { Inject, Injectable } from "@nestjs/common";
+import { UserEmitter } from "./events";
+import { MikroRepository } from "./mikro.repository";
+import { User } from "./user.entity";
+import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {
-  constructor(
-    @Inject(MikroRepository)
-    private readonly repository: UserRepository,
-    private readonly emitter: UserEmitter,
-  ) {
-    this.emitter.setContext(UserService.name);
-  }
+	constructor(
+		@Inject(MikroRepository)
+		private readonly repository: UserRepository,
+		private readonly emitter: UserEmitter,
+	) {
+		this.emitter.setContext(UserService.name);
+	}
 
-  async create(name: string): Promise<User> {
-    const user = new User(name);
-    await this.repository.persist(user);
-    this.emitter.created(user);
-    return user;
-  }
+	async create(name: string): Promise<User> {
+		const user = new User(name);
+		await this.repository.persist(user);
+		this.emitter.created(user);
+		return user;
+	}
 
-  find(id: string): Promise<User> {
-    return this.repository.find(id);
-  }
+	find(id: string): Promise<User> {
+		return this.repository.find(id);
+	}
 
-  all(): Promise<User[]> {
-    return this.repository.findAll();
-  }
+	all(): Promise<User[]> {
+		return this.repository.findAll();
+	}
 }

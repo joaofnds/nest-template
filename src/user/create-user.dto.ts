@@ -1,6 +1,6 @@
-import { IsString } from 'class-validator';
+import { IsString } from "class-validator";
 
 export class CreateUserDTO {
-  @IsString()
-  name: string;
+	@IsString()
+	name: string;
 }

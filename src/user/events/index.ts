@@ -1,2 +1,2 @@
-export * from './user-created.event';
-export * from './user-emitter';
+export * from "./user-created.event";
+export * from "./user-emitter";

@@ -9,9 +9,9 @@
 			"recommended": true
 		}
 	},
-  "formatter": {
-    "ignore": ["dist"]
-  },
+	"formatter": {
+		"ignore": ["dist"]
+	},
 	"javascript": {
 		"parser": {
 			"unsafeParameterDecoratorsEnabled": true

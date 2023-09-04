@@ -1,1 +1,1 @@
-export * from './user-created.queue';
+export * from "./user-created.queue";
