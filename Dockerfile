@@ -1,15 +1,17 @@
-FROM node:lts-alpine AS build
+FROM node:lts-alpine AS base
+RUN corepack enable && corepack prepare pnpm@8.7.1 --activate
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package.json pnpm-lock.yaml ./
+
+
+FROM base AS build
+RUN pnpm install
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 
-FROM node:lts-alpine AS deps
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
+FROM base AS deps
+RUN pnpm install --prod
 
 
 FROM gcr.io/distroless/nodejs20:nonroot
