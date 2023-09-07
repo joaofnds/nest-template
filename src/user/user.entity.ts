@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 import { Expose, instanceToPlain, plainToInstance } from "class-transformer";
 
-@Entity()
+@Entity({ tableName: "user" })
 export class User {
 	@PrimaryKey({ type: "uuid", defaultRaw: "uuid_generate_v4()" })
 	@Expose()

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://json.schemastore.org/swcrc",
+	"sourceMaps": true,
+	"jsc": {
+		"baseUrl": "./",
+		"paths": {
+			"src/*": ["src/*"]
+		},
+		"parser": {
+			"syntax": "typescript",
+			"decorators": true,
+			"dynamicImport": true
+		},
+		"transform": {
+			"legacyDecorator": true,
+			"decoratorMetadata": true
+		}
+	},
+	"minify": false
+}

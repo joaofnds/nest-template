@@ -1,6 +1,4 @@
-import { Config } from "jest";
-
-const config: Config = {
+module.exports = {
 	collectCoverageFrom: ["src/**/*.ts"],
 	coverageDirectory: "coverage",
 	coveragePathIgnorePatterns: [
@@ -19,12 +17,10 @@ const config: Config = {
 	testEnvironment: "node",
 	testMatch: ["<rootDir>/src/**/*.test.ts"],
 	transform: {
-		"^.+\\.(t|j)s$": "ts-jest",
+		"^.+\\.(t|j)s$": "@swc/jest",
 	},
 	moduleNameMapper: {
 		"^src/(.*)": "<rootDir>/src/$1",
 		"^test/(.*)": "<rootDir>/test/$1",
 	},
 };
-
-export default config;
