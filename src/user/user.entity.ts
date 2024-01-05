@@ -16,7 +16,7 @@ export class User {
 	}
 
 	static fromString(userString: string): User {
-		return this.fromPlain(JSON.parse(userString));
+		return User.fromPlain(JSON.parse(userString));
 	}
 
 	toPlain() {

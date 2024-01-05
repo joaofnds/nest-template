@@ -20,20 +20,16 @@ async function withORM(f: (orm: MikroORM) => unknown) {
 
 function parseInteger(value) {
 	const parsedValue = parseInt(value, 10);
-	if (isNaN(parsedValue)) {
+	if (Number.isNaN(parsedValue)) {
 		throw new InvalidArgumentError("Not a number.");
 	}
 	return parsedValue;
 }
 
 function parseOptions(options) {
-	if (options.name !== undefined) {
-		return options.name;
-	} else if (options.to !== undefined) {
-		return { to: options.to };
-	} else {
-		return null;
-	}
+	if (options.name !== undefined) return options.name;
+	if (options.to !== undefined) return { to: options.to };
+	return null;
 }
 
 const program = new Command();
