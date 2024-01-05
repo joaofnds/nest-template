@@ -1,5 +1,5 @@
 FROM node:lts-alpine AS base
-RUN corepack enable && corepack prepare pnpm@8.7.1 --activate
+RUN corepack enable && corepack prepare pnpm@8.14.0 --activate
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
