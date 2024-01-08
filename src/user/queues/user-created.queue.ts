@@ -1,7 +1,7 @@
 import { InjectQueue } from "@nestjs/bull";
 import { Injectable } from "@nestjs/common";
 import { Queue } from "bull";
-import { inMillis } from "src/lib";
+import { time } from "src/lib/time";
 import { UserCreatedEvent } from "../events";
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UserCreatedQueue {
 			jobId: event.user.id,
 			removeOnComplete: true,
 			attempts: 5,
-			backoff: { type: "fixed", delay: inMillis(5, "seconds") },
+			backoff: { type: "fixed", delay: 5 * time.Second },
 		});
 	}
 }
