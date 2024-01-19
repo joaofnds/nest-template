@@ -3,17 +3,17 @@ import { Injectable } from "@nestjs/common";
 import { Job } from "bull";
 import { PinoLogger } from "nestjs-pino";
 import { UserCreatedEvent } from "../events";
-import { UserCreatedQueue } from "./user-created.queue";
+import { UserCreatedQueue } from "../queue";
 
 @Injectable()
 @Processor(UserCreatedQueue.QueueName)
-export class UserCreatedProcessor {
+export class UserCreatedWorker {
 	constructor(private readonly logger: PinoLogger) {
-		this.logger.setContext(UserCreatedProcessor.name);
+		this.logger.setContext(UserCreatedWorker.name);
 	}
 
 	@Process(UserCreatedQueue.QueueName)
-	update(job: Job<UserCreatedEvent>) {
+	process(job: Job<UserCreatedEvent>) {
 		this.logger.info(job.data, "🎉🎉🎉🎉🎉🎉 user created 🎉🎉🎉🎉🎉🎉🎉");
 	}
 }

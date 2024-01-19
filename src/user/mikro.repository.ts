@@ -2,7 +2,7 @@ import { DriverException, NotFoundError } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
 import { NotFoundError as UserNotFoundError, RepositoryError } from "./errors";
-import { User } from "./user.entity";
+import { User } from "./user";
 import { UserRepository } from "./user.repository";
 
 @Injectable()
@@ -26,6 +26,8 @@ export class MikroRepository implements UserRepository {
 			) {
 				throw new RepositoryError(`invalid uuid: ${id}`);
 			}
+
+			throw new RepositoryError(`unknown error: ${error?.message}`);
 		}
 	}
 

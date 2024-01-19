@@ -1,6 +1,6 @@
 import { Queue } from "bull";
 import { UserCreatedEvent } from "../events";
-import { User } from "../user.entity";
+import { User } from "../user";
 import { UserCreatedQueue } from "./user-created.queue";
 
 describe(UserCreatedQueue, () => {

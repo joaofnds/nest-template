@@ -6,18 +6,27 @@ import { HealthModule } from "./health";
 import { LoggerModule } from "./logger.module";
 import { ORMModule } from "./orm.module";
 import { QueueModule } from "./queue.module";
-import { UserModule } from "./user";
+import {
+	UserHTTPModule,
+	UserMetricsModule,
+	UserQueueModule,
+	UserWorkerModule,
+} from "./user";
 
 @Module({
 	imports: [
 		ConfigModule,
 		ORMModule,
 		LoggerModule,
-		HealthModule,
 		EventEmitterModule.forRoot({ global: true, wildcard: true }),
-		UserModule,
 		PrometheusModule.register(),
 		QueueModule,
+		HealthModule,
+
+		UserHTTPModule,
+		UserMetricsModule,
+		UserQueueModule,
+		UserWorkerModule,
 	],
 })
 export class AppModule {}

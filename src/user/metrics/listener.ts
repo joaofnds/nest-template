@@ -2,20 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { InjectMetric } from "@willsoto/nestjs-prometheus";
 import { Counter } from "prom-client";
-import { UserCreatedEvent } from "./events";
-import { UserCreatedQueue } from "./queues";
+import { UserCreatedEvent } from "../events";
+import { UserMetric } from "./metrics.enum";
 
 @Injectable()
-export class UserListener {
+export class MetricsUserListener {
 	constructor(
-		private readonly userCreatedQueue: UserCreatedQueue,
-		@InjectMetric("users_created")
+		@InjectMetric(UserMetric.UsersCreatedTotal)
 		private readonly usersCreatedCounter: Counter<string>,
 	) {}
 
 	@OnEvent(UserCreatedEvent.EventName)
-	onUserCreated(event: UserCreatedEvent) {
+	onUserCreated() {
 		this.usersCreatedCounter.inc();
-		this.userCreatedQueue.schedule(event);
 	}
 }
