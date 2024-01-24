@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
-import { ApplicationDriver } from "test/application-driver";
+import { ApplicationDriver } from "test/driver/application.driver";
 
 describe("/health", () => {
 	let app: INestApplication;
@@ -13,7 +13,7 @@ describe("/health", () => {
 		}).compile();
 
 		app = moduleFixture.createNestApplication();
-		driver = new ApplicationDriver(app);
+		driver = ApplicationDriver.for(app);
 		await driver.setup();
 		await app.listen(3000);
 	});

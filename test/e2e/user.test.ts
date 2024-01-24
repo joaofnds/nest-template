@@ -1,8 +1,8 @@
 import { HttpStatus, INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
-import { ApplicationDriver } from "test/application-driver";
 import { DBCleaner } from "test/db-cleaner";
+import { ApplicationDriver } from "test/driver/application.driver";
 
 describe("/users", () => {
 	let app: INestApplication;
@@ -17,7 +17,7 @@ describe("/users", () => {
 		app = moduleFixture.createNestApplication();
 
 		dbCleaner = DBCleaner.for(app);
-		driver = new ApplicationDriver(app);
+		driver = ApplicationDriver.for(app);
 		await driver.setup();
 		await app.listen(3000);
 	});
@@ -33,20 +33,20 @@ describe("/users", () => {
 
 	it("create user", async () => {
 		const name = "joao";
-		const user = await driver.createUser(name);
+		const user = await driver.users.create(name);
 		expect(user.name).toEqual(name);
 	});
 
 	it("finds created user", async () => {
-		const user = await driver.createUser("joao");
-		const found = await driver.findUser(user.id);
+		const user = await driver.users.create("joao");
+		const found = await driver.users.find(user.id);
 		expect(found).toEqual(user);
 	});
 
 	it("validates user id", async () => {
-		await driver.createUser("joao");
+		await driver.users.create("joao");
 
-		const response = await driver.findUserReq("invalid-id");
+		const response = await driver.users.findReq("invalid-id");
 
 		expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
 		expect(response.body).toEqual({
@@ -57,8 +57,8 @@ describe("/users", () => {
 	});
 
 	it("lists created users", async () => {
-		const user = await driver.createUser("joao");
-		const users = await driver.listUsers();
+		const user = await driver.users.create("joao");
+		const users = await driver.users.list();
 		expect(users).toContainEqual(user);
 	});
 });
