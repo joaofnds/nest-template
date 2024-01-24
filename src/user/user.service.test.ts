@@ -50,19 +50,16 @@ describe(UserService, () => {
 	});
 
 	describe("find", () => {
+		it("returns the user", async () => {
+			const user = await service.create("joao");
+			await expect(service.find(user.id)).resolves.toEqual(user);
+		});
+
 		describe("when not found", () => {
 			it("throws user not found", () => {
 				const id = randomUUID();
 				return expect(service.find(id)).rejects.toThrow(
 					new UserNotFoundError(id),
-				);
-			});
-		});
-
-		describe("when is is invalid", () => {
-			it("throws user not found", () => {
-				return expect(service.find("bad-uuid")).rejects.toThrow(
-					new RepositoryError("invalid uuid: bad-uuid"),
 				);
 			});
 		});

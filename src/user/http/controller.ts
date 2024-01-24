@@ -3,6 +3,7 @@ import {
 	Controller,
 	Get,
 	Param,
+	ParseUUIDPipe,
 	Post,
 	UsePipes,
 	ValidationPipe,
@@ -22,7 +23,7 @@ export class UserController {
 	}
 
 	@Get("/:id")
-	findUser(@Param("id") id: string): Promise<User> {
+	findUser(@Param("id", new ParseUUIDPipe()) id: string): Promise<User> {
 		return this.service.find(id);
 	}
 

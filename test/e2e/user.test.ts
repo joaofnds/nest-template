@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { HttpStatus, INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { ApplicationDriver } from "test/application-driver";
@@ -41,6 +41,19 @@ describe("/users", () => {
 		const user = await driver.createUser("joao");
 		const found = await driver.findUser(user.id);
 		expect(found).toEqual(user);
+	});
+
+	it("validates user id", async () => {
+		await driver.createUser("joao");
+
+		const response = await driver.findUserReq("invalid-id");
+
+		expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
+		expect(response.body).toEqual({
+			statusCode: 400,
+			message: "Validation failed (uuid is expected)",
+			error: "Bad Request",
+		});
 	});
 
 	it("lists created users", async () => {

@@ -27,8 +27,12 @@ export class ApplicationDriver {
 	}
 
 	async findUser(id: string): Promise<User> {
-		const response = await this.agent.get(`/users/${id}`);
+		const response = await this.findUserReq(id);
 		return User.fromPlain(response.body);
+	}
+
+	findUserReq(id: string) {
+		return this.agent.get(`/users/${id}`);
 	}
 
 	async listUsers(): Promise<User[]> {

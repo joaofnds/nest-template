@@ -1,4 +1,4 @@
-import { DriverException, NotFoundError } from "@mikro-orm/core";
+import { NotFoundError } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
 import { NotFoundError as UserNotFoundError, RepositoryError } from "./errors";
@@ -19,12 +19,6 @@ export class MikroRepository implements UserRepository {
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				throw new UserNotFoundError(id);
-			}
-			if (
-				error instanceof DriverException &&
-				error.message.includes("invalid input syntax for type uuid")
-			) {
-				throw new RepositoryError(`invalid uuid: ${id}`);
 			}
 
 			throw new RepositoryError(`unknown error: ${error?.message}`);
