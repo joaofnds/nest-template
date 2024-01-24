@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
 import { UserEmitter } from "./events";
 import { MikroRepository } from "./mikro.repository";
@@ -15,7 +16,7 @@ export class UserService {
 	}
 
 	async create(name: string): Promise<User> {
-		const user = new User(name);
+		const user = new User(randomUUID(), name);
 		await this.repository.persist(user);
 		this.emitter.created(user);
 		return user;
