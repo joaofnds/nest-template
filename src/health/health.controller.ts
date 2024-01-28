@@ -2,7 +2,6 @@ import { Controller, Get } from "@nestjs/common";
 import {
 	HealthCheck,
 	HealthCheckService,
-	HttpHealthIndicator,
 	MemoryHealthIndicator,
 } from "@nestjs/terminus";
 
@@ -12,7 +11,6 @@ export class HealthController {
 
 	constructor(
 		private health: HealthCheckService,
-		private http: HttpHealthIndicator,
 		private memory: MemoryHealthIndicator,
 	) {}
 
@@ -20,7 +18,6 @@ export class HealthController {
 	@HealthCheck()
 	check() {
 		return this.health.check([
-			() => this.http.pingCheck("github", "https://github.com"),
 			() => this.memory.checkHeap("memory_heap", this.heapThreshold),
 		]);
 	}

@@ -28,7 +28,6 @@ describe("/health", () => {
 
 		expect(res.status).toEqual(200);
 		expect(res.body.status).toBe("ok");
-		expect(res.body.info.github.status).toBe("up");
 		expect(res.body.info.memory_heap.status).toBe("up");
 	});
 });
