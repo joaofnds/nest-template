@@ -25,7 +25,6 @@
 		"@mikro-orm/migrations": "^5.9.7",
 		"@mikro-orm/nestjs": "^5.2.3",
 		"@mikro-orm/postgresql": "^5.9.7",
-		"@nestjs/axios": "^3.0.1",
 		"@nestjs/bull": "^10.0.1",
 		"@nestjs/common": "^10.3.0",
 		"@nestjs/config": "^3.1.1",
@@ -34,7 +33,6 @@
 		"@nestjs/platform-express": "^10.3.0",
 		"@nestjs/terminus": "^10.2.0",
 		"@willsoto/nestjs-prometheus": "^6.0.0",
-		"axios": "^1.6.4",
 		"bull": "^4.12.0",
 		"commander": "^11.1.0",
 		"js-yaml": "^4.1.0",
@@ -43,8 +41,6 @@
 		"pino": "^8.17.2",
 		"pino-http": "^9.0.0",
 		"prom-client": "^15.1.0",
-		"reflect-metadata": "^0.2.1",
-		"rxjs": "^7.8.1",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
