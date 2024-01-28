@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { ApplicationDriver } from "test/driver/application.driver";
+import { containing } from "test/util";
 
 describe("/users", () => {
 	let app: INestApplication;
@@ -60,5 +61,25 @@ describe("/users", () => {
 		const user = await driver.users.create("joao");
 		const users = await driver.users.list();
 		expect(users).toContainEqual(user);
+	});
+
+	describe("when name is not provided", () => {
+		it("returns bad request", async () => {
+			const response = await driver.users.createReq("");
+			expect(response).toEqual(
+				containing({
+					status: 400,
+					body: {
+						statusCode: 400,
+						errors: [
+							{
+								path: ["name"],
+								message: "String must contain at least 3 character(s)",
+							},
+						],
+					},
+				}),
+			);
+		});
 	});
 });

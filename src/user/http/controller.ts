@@ -6,19 +6,19 @@ import {
 	ParseUUIDPipe,
 	Post,
 	UsePipes,
-	ValidationPipe,
 } from "@nestjs/common";
-import { CreateUserDTO } from "../create-user.dto";
+import { ZodPipe } from "src/common";
 import { User } from "../user";
 import { UserService } from "../user.service";
+import { createUserSchema } from "./schema";
 
 @Controller("/users")
-@UsePipes(new ValidationPipe({ transform: true }))
+@UsePipes(new ZodPipe())
 export class UserController {
 	constructor(private readonly service: UserService) {}
 
 	@Post()
-	async createUser(@Body() { name }: CreateUserDTO): Promise<User> {
+	async createUser(@Body() { name }: createUserSchema): Promise<User> {
 		return await this.service.create(name);
 	}
 

@@ -1,4 +1,3 @@
-export * from "./create-user.dto";
 export * from "./errors";
 export * from "./events";
 export * from "./http";

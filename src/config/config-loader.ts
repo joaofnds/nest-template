@@ -1,9 +1,7 @@
 import { existsSync, readFileSync } from "fs";
-import { plainToInstance } from "class-transformer";
-import { validateSync } from "class-validator";
 import { load as loadYAML } from "js-yaml";
 import { merge } from "lodash";
-import { AppConfig } from "./config";
+import { AppConfig, AppConfigSchema } from "./config";
 
 export class ConfigLoader {
 	private readonly defaultEnv = "development";
@@ -22,7 +20,8 @@ export class ConfigLoader {
 	}
 
 	load(): AppConfig {
-		return this.validate(merge(this.config(), this.localOverrides()));
+		const config = merge(this.config(), this.localOverrides());
+		return AppConfig.parse(config);
 	}
 
 	private config() {
@@ -41,19 +40,5 @@ export class ConfigLoader {
 
 	private loadConfig(path: string) {
 		return loadYAML(readFileSync(path, "utf8")) as Record<string, unknown>;
-	}
-
-	private validate(config: Record<string, unknown>) {
-		const appConfig = plainToInstance(AppConfig, config, {
-			enableImplicitConversion: true,
-		});
-
-		const errors = validateSync(appConfig, {
-			skipMissingProperties: false,
-		});
-
-		if (errors.length > 0) throw new Error(errors.toString());
-
-		return appConfig;
 	}
 }
