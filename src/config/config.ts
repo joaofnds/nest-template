@@ -30,7 +30,10 @@ const appConfigSchema = z.object({
 });
 
 export class AppConfig {
-	constructor(readonly database: DatabaseConfig, readonly redis: RedisConfig) {}
+	constructor(
+		readonly database: DatabaseConfig,
+		readonly redis: RedisConfig,
+	) {}
 
 	static fromPlain(config: z.infer<typeof appConfigSchema>) {
 		return new AppConfig(

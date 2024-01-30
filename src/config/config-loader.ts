@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "fs";
 import { load as loadYAML } from "js-yaml";
 import { merge } from "lodash";
-import { AppConfig, AppConfigSchema } from "./config";
+import { AppConfig } from "./config";
 
 export class ConfigLoader {
 	private readonly defaultEnv = "development";

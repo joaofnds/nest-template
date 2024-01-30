@@ -1,3 +1,4 @@
+import { Migrator } from "@mikro-orm/migrations";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { defineConfig } from "@mikro-orm/postgresql";
 import { Module } from "@nestjs/common";
@@ -12,7 +13,10 @@ import { User } from "./user";
 			useFactory: (config: DatabaseConfig) => ({
 				allowGlobalContext: true,
 				entities: [User],
-				...defineConfig({ clientUrl: config.uri }),
+				...defineConfig({
+					clientUrl: config.uri,
+					extensions: [Migrator],
+				}),
 			}),
 		}),
 	],
