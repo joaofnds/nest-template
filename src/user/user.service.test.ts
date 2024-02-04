@@ -5,7 +5,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { waitFor } from "test/wait-for";
-import { NotFoundError as UserNotFoundError, RepositoryError } from "./errors";
+import { NotFoundError as UserNotFoundError } from "./errors";
 import { UserCreatedEvent } from "./events";
 import { UserService } from "./user.service";
 

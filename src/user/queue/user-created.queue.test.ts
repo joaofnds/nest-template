@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Queue } from "bull";
 import { UserCreatedEvent } from "../events";
 import { User } from "../user";
@@ -6,7 +7,10 @@ import { UserCreatedQueue } from "./user-created.queue";
 describe(UserCreatedQueue, () => {
 	let queue: UserCreatedQueue;
 	const bullQueue = { add: jest.fn() };
-	const event = new UserCreatedEvent("UserCreatedQueueTest", new User("test"));
+	const event = new UserCreatedEvent(
+		"UserCreatedQueueTest",
+		new User(randomUUID(), "test"),
+	);
 
 	beforeAll(async () => {
 		queue = new UserCreatedQueue(
