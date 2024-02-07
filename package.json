@@ -8,17 +8,17 @@
 	"packageManager": "pnpm@8.14.0",
 	"scripts": {
 		"build": "nest build",
-		"format": "biome format --write .",
+		"check": "biome check .",
+		"lint": "biome check --apply-unsafe .",
+		"migrate": "node dist/migration.js",
 		"start": "nest start",
-		"start:dev": "nest start --watch",
 		"start:debug": "nest start --debug --watch",
+		"start:dev": "nest start --watch",
 		"start:prod": "node dist/main",
-		"lint": "biome check --apply-unsafe ./src ./test",
 		"test": "jest --runInBand",
-		"test:watch": "jest --watch --runInBand",
 		"test:cov": "jest --coverage --runInBand",
 		"test:e2e": "jest --runInBand --config ./jest-e2e.config.js",
-		"migrate": "node dist/migration.js"
+		"test:watch": "jest --watch --runInBand"
 	},
 	"dependencies": {
 		"@mikro-orm/core": "^6.0.6",
