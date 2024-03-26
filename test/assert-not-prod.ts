@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "node:assert";
 
 assert.doesNotMatch(
 	process.env.NODE_ENV || "",

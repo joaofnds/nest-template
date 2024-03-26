@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync } from "node:fs";
 import { load as loadYAML } from "js-yaml";
 import { merge } from "lodash";
 import { AppConfig } from "./config";
