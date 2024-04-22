@@ -1,7 +1,7 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
-import { NotFoundError as UserNotFoundError, RepositoryError } from "./errors";
+import { RepositoryError, NotFoundError as UserNotFoundError } from "./errors";
 import { User } from "./user";
 import { UserRepository } from "./user.repository";
 

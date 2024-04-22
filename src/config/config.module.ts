@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import {
-	ConfigModule as NestConfigModule,
 	ConfigService,
+	ConfigModule as NestConfigModule,
 } from "@nestjs/config";
 import { get } from "lodash";
 import {
