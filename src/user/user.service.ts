@@ -18,7 +18,7 @@ export class UserService {
 	async create(name: string): Promise<User> {
 		const user = new User(randomUUID(), name);
 		await this.repository.persist(user);
-		this.emitter.created(user);
+		await this.emitter.created(user);
 		return user;
 	}
 

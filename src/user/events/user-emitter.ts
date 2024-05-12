@@ -13,8 +13,10 @@ export class UserEmitter {
 		this.context = context;
 	}
 
-	created(...eventData: Tail<ConstructorParameters<typeof UserCreatedEvent>>) {
-		this.eventEmitter.emit(
+	async created(
+		...eventData: Tail<ConstructorParameters<typeof UserCreatedEvent>>
+	) {
+		await this.eventEmitter.emitAsync(
 			UserCreatedEvent.EventName,
 			new UserCreatedEvent(this.context, ...eventData),
 		);
