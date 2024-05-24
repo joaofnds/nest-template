@@ -4,12 +4,10 @@ import {
 	ConfigModule as NestConfigModule,
 } from "@nestjs/config";
 import { get } from "lodash";
-import {
-	AppConfig,
-	ConfigLoader,
-	DatabaseConfig,
-	RedisConfig,
-} from "src/config";
+import { AppConfig } from "./app.config";
+import { ConfigLoader } from "./config-loader";
+import { DatabaseConfig } from "./database.config";
+import { RedisConfig } from "./redis.config";
 
 @Module({
 	imports: [
