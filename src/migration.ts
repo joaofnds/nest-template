@@ -2,10 +2,9 @@ import { MikroORM } from "@mikro-orm/core";
 import { Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { Command, InvalidArgumentError } from "commander";
-import { ConfigModule } from "./config/config.module";
-import { ORMModule } from "./orm.module";
+import { ORMModule } from "./database/orm";
 
-@Module({ imports: [ConfigModule, ORMModule] })
+@Module({ imports: [ORMModule] })
 class Migration {}
 
 async function withORM(f: (orm: MikroORM) => unknown) {
@@ -18,7 +17,7 @@ async function withORM(f: (orm: MikroORM) => unknown) {
 	await app.close();
 }
 
-function parseInteger(value) {
+function parseInteger(value: string) {
 	const parsedValue = Number.parseInt(value, 10);
 	if (Number.isNaN(parsedValue)) {
 		throw new InvalidArgumentError("Not a number.");
@@ -26,10 +25,12 @@ function parseInteger(value) {
 	return parsedValue;
 }
 
-function parseOptions(options) {
+type MigratorOptions = { name?: string; to?: number };
+
+function parseOptions(options: MigratorOptions) {
 	if (options.name !== undefined) return options.name;
 	if (options.to !== undefined) return { to: options.to };
-	return null;
+	return undefined;
 }
 
 const program = new Command();
@@ -47,7 +48,7 @@ program
 		"runs migrations up to given version",
 		parseInteger,
 	)
-	.action(async (opt) => {
+	.action(async (opt: MigratorOptions) => {
 		await withORM(async (o) => await o.getMigrator().up(parseOptions(opt)));
 	});
 

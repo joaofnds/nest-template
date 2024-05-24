@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { DatabaseConfig, databaseConfigSchema } from "./database.config";
-import { RedisConfig, redisConfigSchema } from "./redis.config";
+import { DatabaseConfig, databaseConfigSchema } from "../database/config";
+import { RedisConfig, redisConfigSchema } from "../redis/config";
 
 const appConfigSchema = z.object({
 	database: databaseConfigSchema,

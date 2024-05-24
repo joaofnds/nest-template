@@ -6,8 +6,6 @@ import {
 import { get } from "lodash";
 import { AppConfig } from "./app.config";
 import { ConfigLoader } from "./config-loader";
-import { DatabaseConfig } from "./database.config";
-import { RedisConfig } from "./redis.config";
 
 @Module({
 	imports: [
@@ -22,17 +20,7 @@ import { RedisConfig } from "./redis.config";
 			inject: [ConfigService],
 			useFactory: (config: ConfigService) => get(config, "internalConfig"),
 		},
-		{
-			provide: DatabaseConfig,
-			inject: [AppConfig],
-			useFactory: (config: AppConfig) => config.database,
-		},
-		{
-			provide: RedisConfig,
-			inject: [AppConfig],
-			useFactory: (config: AppConfig) => config.redis,
-		},
 	],
-	exports: [AppConfig, DatabaseConfig, RedisConfig],
+	exports: [AppConfig],
 })
 export class ConfigModule {}

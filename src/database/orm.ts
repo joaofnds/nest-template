@@ -2,14 +2,14 @@ import { Migrator } from "@mikro-orm/migrations";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { defineConfig } from "@mikro-orm/postgresql";
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "./config/config.module";
-import { DatabaseConfig } from "./config/database.config";
-import { User } from "./user/user";
+import { User } from "../user/user";
+import { DatabaseConfig } from "./config";
+import { DatabaseModule } from "./module";
 
 @Module({
 	imports: [
 		MikroOrmModule.forRootAsync({
-			imports: [ConfigModule],
+			imports: [DatabaseModule],
 			inject: [DatabaseConfig],
 			useFactory: (config: DatabaseConfig) => ({
 				allowGlobalContext: true,

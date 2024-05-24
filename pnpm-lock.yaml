@@ -47,6 +47,9 @@ dependencies:
   commander:
     specifier: ^12.1.0
     version: 12.1.0
+  ioredis:
+    specifier: ^5.4.1
+    version: 5.4.1
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
