@@ -3,6 +3,7 @@ import { Redis } from "ioredis";
 import { AppConfig } from "src/config/app.config";
 import { ConfigModule } from "src/config/config.module";
 import { RedisConfig } from "./config";
+import { RedisHealthIndicator } from "./health-indicator";
 
 @Module({
 	imports: [ConfigModule],
@@ -17,7 +18,8 @@ import { RedisConfig } from "./config";
 			inject: [RedisConfig],
 			useFactory: (config: RedisConfig) => new Redis(config.uri),
 		},
+		RedisHealthIndicator,
 	],
-	exports: [RedisConfig, Redis],
+	exports: [RedisConfig, Redis, RedisHealthIndicator],
 })
 export class RedisModule {}
