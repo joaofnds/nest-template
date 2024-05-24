@@ -2,7 +2,7 @@ export * from "./errors";
 export * from "./events";
 export * from "./http";
 export * from "./metrics";
-export * from "./mikro.repository";
+export * from "./persistence";
 export * from "./queue";
 export * from "./user";
 export * from "./user.module";
