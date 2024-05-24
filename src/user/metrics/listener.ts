@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { InjectMetric } from "@willsoto/nestjs-prometheus";
 import { Counter } from "prom-client";
-import { UserCreatedEvent } from "../events";
+import { UserCreatedEvent } from "../events/user-created.event";
 import { UserMetric } from "./metrics.enum";
 
 @Injectable()

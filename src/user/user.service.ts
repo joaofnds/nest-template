@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
-import { UserEmitter } from "./events";
-import { MikroRepository } from "./persistence";
+import { UserEmitter } from "./events/user-emitter";
+import { MikroRepository } from "./persistence/mikro.repository";
 import { User } from "./user";
 import { UserRepository } from "./user.repository";
 

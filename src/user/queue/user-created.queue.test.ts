@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { Queue } from "bull";
-import { UserCreatedEvent } from "../events";
+import { UserCreatedEvent } from "../events/user-created.event";
 import { User } from "../user";
 import { UserCreatedQueue } from "./user-created.queue";
 

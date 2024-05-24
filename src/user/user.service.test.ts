@@ -5,8 +5,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { waitFor } from "test/wait-for";
-import { NotFoundError as UserNotFoundError } from "./errors";
-import { UserCreatedEvent } from "./events";
+import { NotFoundError as UserNotFoundError } from "./errors/not-found.error";
+import { UserCreatedEvent } from "./events/user-created.event";
 import { UserService } from "./user.service";
 
 describe(UserService, () => {

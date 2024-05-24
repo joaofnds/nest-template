@@ -2,8 +2,8 @@ import { Process, Processor } from "@nestjs/bull";
 import { Injectable } from "@nestjs/common";
 import { Job } from "bull";
 import { PinoLogger } from "nestjs-pino";
-import { UserCreatedEvent } from "../events";
-import { UserCreatedQueue } from "../queue";
+import { UserCreatedEvent } from "../events/user-created.event";
+import { UserCreatedQueue } from "../queue/user-created.queue";
 
 @Injectable()
 @Processor(UserCreatedQueue.QueueName)

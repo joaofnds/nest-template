@@ -1,4 +1,4 @@
-import { User } from "src/user";
+import { User } from "src/user/user";
 import { Driver } from "./driver";
 
 export class UserDriver extends Driver {

@@ -2,7 +2,7 @@ import { MikroORM } from "@mikro-orm/core";
 import { Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { Command, InvalidArgumentError } from "commander";
-import { ConfigModule } from "./config";
+import { ConfigModule } from "./config/config.module";
 import { ORMModule } from "./orm.module";
 
 @Module({ imports: [ConfigModule, ORMModule] })

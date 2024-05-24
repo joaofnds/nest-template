@@ -3,7 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { ApplicationDriver } from "test/driver/application.driver";
-import { containing } from "test/util";
+import { containing } from "test/util/containing";
 
 describe("/users", () => {
 	let app: INestApplication;

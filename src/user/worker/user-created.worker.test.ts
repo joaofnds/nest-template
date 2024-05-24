@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { Job } from "bull";
 import { PinoLogger } from "nestjs-pino";
-import { UserCreatedEvent } from "../events";
+import { UserCreatedEvent } from "../events/user-created.event";
 import { User } from "../user";
 import { UserCreatedWorker } from "./user-created.worker";
 

@@ -2,8 +2,9 @@ import { Migrator } from "@mikro-orm/migrations";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { defineConfig } from "@mikro-orm/postgresql";
 import { Module } from "@nestjs/common";
-import { ConfigModule, DatabaseConfig } from "src/config";
-import { User } from "./user";
+import { ConfigModule } from "./config/config.module";
+import { DatabaseConfig } from "./config/database.config";
+import { User } from "./user/user";
 
 @Module({
 	imports: [

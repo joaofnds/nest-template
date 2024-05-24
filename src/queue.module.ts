@@ -1,6 +1,7 @@
 import { BullModule } from "@nestjs/bull";
 import { Module } from "@nestjs/common";
-import { ConfigModule, RedisConfig } from "./config";
+import { ConfigModule } from "./config/config.module";
+import { RedisConfig } from "./config/redis.config";
 
 @Module({
 	imports: [

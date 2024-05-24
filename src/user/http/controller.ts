@@ -7,10 +7,10 @@ import {
 	Post,
 	UsePipes,
 } from "@nestjs/common";
-import { ZodPipe } from "src/common";
+import { ZodPipe } from "src/common/zod.pipe";
 import { User } from "../user";
 import { UserService } from "../user.service";
-import { createUserSchema } from "./schema";
+import { createUserSchema } from "./schema/create-user.schema";
 
 @Controller("/users")
 @UsePipes(new ZodPipe())
