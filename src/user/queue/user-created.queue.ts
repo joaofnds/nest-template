@@ -2,7 +2,7 @@ import { InjectQueue } from "@nestjs/bull";
 import { Injectable } from "@nestjs/common";
 import { Queue } from "bull";
 import { time } from "src/lib/time";
-import { UserCreatedEvent } from "../events";
+import { UserCreatedEvent } from "../events/user-created.event";
 
 @Injectable()
 export class UserCreatedQueue {

@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { EventEmitterModule } from "@nestjs/event-emitter";
 import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 import { DatabaseModule } from "./database/module";
 import { ORMModule } from "./database/orm";
+import { EventEmitterModule } from "./event-emitter/module";
 import { HealthModule } from "./health/health.module";
 import { LoggerModule } from "./logger.module";
 import { PokeAPIHTTPModule } from "./pokeapi/http/module";
@@ -23,7 +23,7 @@ import { UserWorkerModule } from "./user/worker/module";
 		DatabaseModule,
 		ORMModule,
 		LoggerModule,
-		EventEmitterModule.forRoot({ global: true, wildcard: true }),
+		EventEmitterModule,
 		PrometheusModule.register(),
 		QueueModule,
 		HealthModule,

@@ -36,6 +36,7 @@
 		"@willsoto/nestjs-prometheus": "^6.0.0",
 		"bull": "^4.12.9",
 		"commander": "^12.1.0",
+		"effect": "^3.2.5",
 		"ioredis": "^5.4.1",
 		"js-yaml": "^4.1.0",
 		"lodash": "^4.17.21",
@@ -43,6 +44,7 @@
 		"pino": "^9.1.0",
 		"pino-http": "^10.1.0",
 		"prom-client": "^15.1.2",
+		"rxjs": "^7.8.1",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
