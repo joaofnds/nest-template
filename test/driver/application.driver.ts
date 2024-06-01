@@ -1,6 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { agent } from "supertest";
 import { Driver } from "./driver";
+import { PokeAPIDriver } from "./pokeapi.driver";
 import { UserDriver } from "./user.driver";
 
 export class ApplicationDriver extends Driver {
@@ -12,5 +13,9 @@ export class ApplicationDriver extends Driver {
 
 	health() {
 		return this.agent.get("/health");
+	}
+
+	get pokeapi() {
+		return new PokeAPIDriver(this.agent);
 	}
 }

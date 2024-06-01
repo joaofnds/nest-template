@@ -3,3 +3,6 @@ database:
 
 redis:
   uri: redis://localhost:6379
+
+pokeAPI:
+  baseURL: https://pokeapi.co/api/v2

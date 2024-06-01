@@ -6,6 +6,7 @@ import { DatabaseModule } from "./database/module";
 import { ORMModule } from "./database/orm";
 import { HealthModule } from "./health/health.module";
 import { LoggerModule } from "./logger.module";
+import { PokeAPIHTTPModule } from "./pokeapi/http/module";
 import { QueueModule } from "./queue.module";
 import { RedisModule } from "./redis/module";
 import { UserHTTPModule } from "./user/http/module";
@@ -29,6 +30,8 @@ import { UserWorkerModule } from "./user/worker/module";
 		UserMetricsModule,
 		UserQueueModule,
 		UserWorkerModule,
+
+		PokeAPIHTTPModule,
 	],
 })
 export class AppModule {}
