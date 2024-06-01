@@ -4,7 +4,7 @@ describe("/pokeapi", () => {
 	let harness: TestHarness;
 
 	beforeAll(async () => {
-		harness = await TestHarness.setup();
+		harness = await TestHarness.setup({ useRequestRecorder: true });
 	});
 
 	afterAll(async () => {
