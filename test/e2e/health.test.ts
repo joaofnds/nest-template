@@ -1,30 +1,18 @@
-import { INestApplication } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "src/app.module";
-import { ApplicationDriver } from "test/driver/application.driver";
+import { TestHarness } from "test/harness";
 
 describe("/health", () => {
-	let app: INestApplication;
-	let driver: ApplicationDriver;
+	let harness: TestHarness;
 
 	beforeAll(async () => {
-		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [AppModule],
-		}).compile();
-
-		app = moduleFixture.createNestApplication();
-		driver = ApplicationDriver.for(app);
-		await driver.setup();
-		await app.listen(3000);
+		harness = await TestHarness.setup();
 	});
 
 	afterAll(async () => {
-		await driver.teardown();
-		await app.close();
+		await harness.teardown();
 	});
 
 	it("/health", async () => {
-		const res = await driver.health();
+		const res = await harness.driver.health();
 
 		expect(res.status).toEqual(200);
 		expect(res.body.status).toBe("ok");

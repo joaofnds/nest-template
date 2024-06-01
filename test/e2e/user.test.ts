@@ -3,33 +3,24 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { ApplicationDriver } from "test/driver/application.driver";
+import { TestHarness } from "test/harness";
 import { containing } from "test/util/containing";
 
 describe("/users", () => {
-	let app: INestApplication;
+	let harness: TestHarness;
 	let driver: ApplicationDriver;
-	let dbCleaner: DBCleaner;
 
 	beforeAll(async () => {
-		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [AppModule],
-		}).compile();
-
-		app = moduleFixture.createNestApplication();
-
-		dbCleaner = DBCleaner.for(app);
-		driver = ApplicationDriver.for(app);
-		await driver.setup();
-		await app.listen(3000);
-	});
-
-	afterAll(async () => {
-		await driver.teardown();
-		await app.close();
+		harness = await TestHarness.setup();
+		driver = harness.driver;
 	});
 
 	beforeEach(async () => {
-		await dbCleaner.clean();
+		await harness.dbCleaner.clean();
+	});
+
+	afterAll(async () => {
+		await harness.teardown();
 	});
 
 	it("create user", async () => {
