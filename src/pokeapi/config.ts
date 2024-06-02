@@ -9,7 +9,7 @@ export const pokeAPIConfigSchema = z.object({
 		.refine((url) => !url.endsWith("/"), {
 			message: "URL must not end with a trailing slash",
 		}),
-	timeoutMilliseconds: z.number().int().positive().gt(100).lt(10_000),
+	timeoutMilliseconds: z.number().int().gt(100).lt(10_000),
 });
 
 export class PokeAPIConfig {
