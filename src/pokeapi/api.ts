@@ -9,7 +9,9 @@ export class PokeAPI {
 	constructor(private readonly config: PokeAPIConfig) {}
 
 	getPokemon(name: string) {
-		return fetch(`${this.config.baseURL}/pokemon/${name}`)
+		return fetch(`${this.config.baseURL}/pokemon/${name}`, {
+			signal: AbortSignal.timeout(this.config.timeoutMilliseconds),
+		})
 			.catch((err) => {
 				throw new PokeAPIError(err.message);
 			})
