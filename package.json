@@ -32,6 +32,7 @@
 		"@nestjs/event-emitter": "^2.0.4",
 		"@nestjs/platform-express": "^10.3.8",
 		"@nestjs/terminus": "^10.2.3",
+		"@nestjs/throttler": "^5.1.2",
 		"@willsoto/nestjs-prometheus": "^6.0.0",
 		"bull": "^4.12.9",
 		"commander": "^12.1.0",

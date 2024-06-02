@@ -1,3 +1,7 @@
+throttler:
+  ttl: 1000
+  limit: 10
+
 database:
   uri: postgres://postgres:postgres@localhost:5432/template
 
