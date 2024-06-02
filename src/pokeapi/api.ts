@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { zodErrorToString } from "src/zod";
 import { PokeAPIConfig } from "./config";
 import { PokeAPINotFoundError } from "./errors/not-found.error";
 import { PokeAPIError } from "./errors/pokeapi.error";
@@ -33,9 +34,7 @@ export class PokeAPI {
 					return result.data;
 				}
 
-				throw new PokeAPIError(
-					result.error.errors.map((err) => err.message).join(", "),
-				);
+				throw new PokeAPIError(zodErrorToString(result.error));
 			});
 	}
 }
