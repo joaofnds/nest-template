@@ -1,3 +1,4 @@
+import { HttpStatus } from "@nestjs/common";
 import { TestHarness } from "test/harness";
 
 describe("/pokeapi", () => {
@@ -31,9 +32,10 @@ describe("/pokeapi", () => {
 
 				expect(res.status).toBe(404);
 				expect(res.body).toEqual({
-					name: "PokeAPINotFoundError",
-					message: 'pokemon "does-not-exist" not found',
-					pokemon: "does-not-exist",
+					error: "Not Found",
+					statusCode: HttpStatus.NOT_FOUND,
+					message:
+						'pokemon "https://pokeapi.co/api/v2/pokemon/does-not-exist" not found',
 				});
 			});
 		});

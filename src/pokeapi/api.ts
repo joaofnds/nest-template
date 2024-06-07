@@ -1,40 +1,44 @@
+import {
+	HttpClientError,
+	RequestError,
+	ResponseError,
+} from "@effect/platform/Http/ClientError";
+import * as Http from "@effect/platform/HttpClient";
+import { ParseError } from "@effect/schema/ParseResult";
 import { Injectable } from "@nestjs/common";
-import { zodErrorToString } from "src/zod";
+import { Console, Effect, pipe } from "effect";
+import { TimeoutException } from "effect/Cause";
 import { PokeAPIConfig } from "./config";
 import { PokeAPINotFoundError } from "./errors/not-found.error";
+import { PokeAPIParseError } from "./errors/parse.error";
 import { PokeAPIError } from "./errors/pokeapi.error";
 import { PokeAPITimeoutError } from "./errors/timeout.error";
-import { pokemonSchema } from "./schemas/pokemon.schema";
+import { PokemonSchema } from "./schemas/pokemon.schema";
 
 @Injectable()
 export class PokeAPI {
 	constructor(private readonly config: PokeAPIConfig) {}
 
 	getPokemon(name: string) {
-		return fetch(`${this.config.baseURL}/pokemon/${name}`, {
-			signal: AbortSignal.timeout(this.config.timeoutMilliseconds),
-		})
-			.catch((err) => {
-				if (err?.name === "TimeoutError") {
-					throw new PokeAPITimeoutError("Request timed out");
+		return pipe(
+			Http.request.get(`${this.config.baseURL}/pokemon/${name}`),
+			Http.client.fetch,
+			Http.response.schemaBodyJsonScoped(PokemonSchema),
+			Effect.timeout(this.config.timeoutMilliseconds),
+			Effect.mapError((error) => {
+				switch (error._tag) {
+					case "TimeoutException":
+						return new PokeAPITimeoutError(error.message);
+					case "ParseError":
+						return new PokeAPIParseError(error.message);
+					case "RequestError":
+						return new PokeAPIError(error.message);
+					case "ResponseError":
+						return error.response.status === 404
+							? new PokeAPINotFoundError(error.request.url)
+							: new PokeAPIError(error.message);
 				}
-
-				throw new PokeAPIError(err.message);
-			})
-			.then((res) => {
-				if (res.status === 404) {
-					throw new PokeAPINotFoundError(name);
-				}
-
-				return res.json();
-			})
-			.then((data) => {
-				const result = pokemonSchema.safeParse(data);
-				if (result.success) {
-					return result.data;
-				}
-
-				throw new PokeAPIError(zodErrorToString(result.error));
-			});
+			}),
+		);
 	}
 }

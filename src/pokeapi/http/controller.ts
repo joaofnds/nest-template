@@ -5,29 +5,31 @@ import {
 	NotFoundException,
 	Param,
 	RequestTimeoutException,
+	UseInterceptors,
 } from "@nestjs/common";
+import { Effect } from "effect";
+import { EffectInterceptor } from "src/nest/effect.interceptor";
 import { PokeAPI } from "../api";
-import { PokeAPINotFoundError } from "../errors/not-found.error";
-import { PokeAPITimeoutError } from "../errors/timeout.error";
 
 @Controller("/pokeapi")
+@UseInterceptors(new EffectInterceptor())
 export class PokeAPIController {
 	constructor(private readonly api: PokeAPI) {}
 
 	@Get("/:name")
 	async findUser(@Param("name") name: string) {
-		try {
-			return await this.api.getPokemon(name);
-		} catch (error) {
-			if (error instanceof PokeAPITimeoutError) {
-				throw new RequestTimeoutException(error);
-			}
-
-			if (error instanceof PokeAPINotFoundError) {
-				throw new NotFoundException(error);
-			}
-
-			throw new InternalServerErrorException(error);
-		}
+		return this.api.getPokemon(name).pipe(
+			Effect.mapError((error) => {
+				switch (error._tag) {
+					case "PokeAPITimeoutError":
+						return new RequestTimeoutException();
+					case "PokeAPINotFoundError":
+						return new NotFoundException(error.message);
+					case "PokeAPIParseError":
+					case "PokeAPIError":
+						return new InternalServerErrorException(error.message);
+				}
+			}),
+		);
 	}
 }
