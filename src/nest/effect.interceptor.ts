@@ -2,9 +2,10 @@ import {
 	CallHandler,
 	ExecutionContext,
 	Injectable,
+	InternalServerErrorException,
 	NestInterceptor,
 } from "@nestjs/common";
-import { Effect, Exit, Match, identity, pipe, unsafeCoerce } from "effect";
+import { Cause, Effect, Exit, identity } from "effect";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -14,28 +15,28 @@ export class EffectInterceptor implements NestInterceptor {
 		_context: ExecutionContext,
 		next: CallHandler,
 	): Observable<unknown> {
-		return next.handle().pipe(
-			map(async (value: unknown) =>
-				pipe(
-					Match.value(value),
-					Match.when(Effect.isEffect, async (effect) =>
-						Exit.match(
-							await Effect.runPromiseExit<unknown, Error>(unsafeCoerce(effect)),
-							{
-								onSuccess: identity,
-								onFailure: (cause) =>
-									pipe(
-										Match.value(cause),
-										Match.tag("Fail", ({ error }) => {
-											throw error;
-										}),
-									),
-							},
-						),
-					),
-					Match.orElse(identity),
-				),
+		return next
+			.handle()
+			.pipe(map((result) => this.handleControllerResult(result)));
+	}
+
+	private async handleControllerResult(result: unknown) {
+		if (!Effect.isEffect(result)) return result;
+
+		return Exit.match(
+			await Effect.runPromiseExit(
+				result as Effect.Effect<unknown, Error, never>,
 			),
+			{ onSuccess: identity, onFailure: (cause) => this.onFailure(cause) },
 		);
+	}
+
+	private onFailure(cause: Cause.Cause<Error>) {
+		switch (cause._tag) {
+			case "Fail":
+				throw cause.error;
+			default:
+				throw new InternalServerErrorException(cause);
+		}
 	}
 }
