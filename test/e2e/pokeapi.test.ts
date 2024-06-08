@@ -34,8 +34,7 @@ describe("/pokeapi", () => {
 				expect(res.body).toEqual({
 					error: "Not Found",
 					statusCode: HttpStatus.NOT_FOUND,
-					message:
-						'pokemon "https://pokeapi.co/api/v2/pokemon/does-not-exist" not found',
+					message: 'pokemon "does-not-exist" not found',
 				});
 			});
 		});

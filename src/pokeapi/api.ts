@@ -1,13 +1,7 @@
-import {
-	HttpClientError,
-	RequestError,
-	ResponseError,
-} from "@effect/platform/Http/ClientError";
+import { HttpServer } from "@effect/platform";
 import * as Http from "@effect/platform/HttpClient";
-import { ParseError } from "@effect/schema/ParseResult";
-import { Injectable } from "@nestjs/common";
-import { Console, Effect, pipe } from "effect";
-import { TimeoutException } from "effect/Cause";
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { Effect, Match, pipe } from "effect";
 import { PokeAPIConfig } from "./config";
 import { PokeAPINotFoundError } from "./errors/not-found.error";
 import { PokeAPIParseError } from "./errors/parse.error";
@@ -25,19 +19,19 @@ export class PokeAPI {
 			Http.client.fetch,
 			Http.response.schemaBodyJsonScoped(PokemonSchema),
 			Effect.timeout(this.config.timeoutMilliseconds),
-			Effect.mapError((error) => {
-				switch (error._tag) {
-					case "TimeoutException":
-						return new PokeAPITimeoutError(error.message);
-					case "ParseError":
-						return new PokeAPIParseError(error.message);
-					case "RequestError":
-						return new PokeAPIError(error.message);
-					case "ResponseError":
-						return error.response.status === 404
-							? new PokeAPINotFoundError(error.request.url)
-							: new PokeAPIError(error.message);
-				}
+			Effect.catchTags({
+				TimeoutException: (error) =>
+					Effect.fail(new PokeAPITimeoutError(error.message)),
+				ParseError: (error) =>
+					Effect.fail(new PokeAPIParseError(error.message)),
+				RequestError: (error) => Effect.fail(new PokeAPIError(error.message)),
+				ResponseError: (error) =>
+					pipe(
+						Match.value(error.response.status),
+						Match.when(404, () => new PokeAPINotFoundError(name)),
+						Match.orElse(() => new PokeAPIError(error.message)),
+						Effect.fail,
+					),
 			}),
 		);
 	}
