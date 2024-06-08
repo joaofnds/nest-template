@@ -1,0 +1,24 @@
+[env]
+OTEL_EXPORTER_OTLP_ENDPOINT = 'http://0.0.0.0:4318'
+
+[tools]
+node = "latest"
+
+[tasks.up]
+run = ['limactl start default', 'docker compose up -d']
+
+[tasks.down]
+run = ['docker compose down', 'limactl stop default']
+
+[tasks.test-load]
+run = 'k6 run ./test/k6/load-test.js'
+
+[tasks.ci]
+run = [
+  'pnpm run check',
+  'pnpm run build',
+  'pnpm run migrate down 0',
+  'pnpm run migrate up',
+  'pnpm run test',
+  'pnpm run test:e2e',
+]
