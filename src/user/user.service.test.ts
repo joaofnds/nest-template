@@ -2,11 +2,9 @@ import { randomUUID } from "node:crypto";
 import { INestApplication } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { Test, TestingModule } from "@nestjs/testing";
-import { Exit } from "effect";
-import { runPromise, runPromiseExit } from "effect/Effect";
+import { Effect, pipe } from "effect";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
-import { waitFor } from "test/wait-for";
 import { NotFoundError as UserNotFoundError } from "./errors/not-found.error";
 import { UserCreatedEvent } from "./events/user-created.event";
 import { UserService } from "./user.service";
@@ -40,44 +38,44 @@ describe(UserService, () => {
 	});
 
 	describe("create", () => {
-		it("emits user.created event", async () => {
-			const event = waitFor(emitter, UserCreatedEvent.EventName);
+		it.effect("emits user.created event", function* () {
+			const events: unknown[] = [];
+			emitter.once(UserCreatedEvent.EventName, (event) => events.push(event));
 
-			const user = await runPromise(service.create("joao"));
+			const user = yield* service.create("joao");
 
-			await expect(event).resolves.toEqual(
-				new UserCreatedEvent(UserService.name, user),
-			);
+			expect(events).toEqual([new UserCreatedEvent(UserService.name, user)]);
 		});
 	});
 
 	describe("find", () => {
-		it("returns the user", async () => {
-			const user = await runPromise(service.create("joao"));
-			const found = await runPromise(service.find(user.id));
+		it.effect("returns the user", function* () {
+			const user = yield* service.create("joao");
+			const found = yield* service.find(user.id);
 			expect(found).toEqual(user);
 		});
 
 		describe("when not found", () => {
-			it("throws user not found", () => {
+			it.effect("throws user not found", function* () {
 				const id = randomUUID();
-				return expect(runPromiseExit(service.find(id))).resolves.toEqual(
-					Exit.fail(new UserNotFoundError(id)),
-				);
+
+				const result = yield* Effect.merge(service.find(id));
+
+				expect(result).toEqual(new UserNotFoundError(id));
 			});
 		});
 	});
 
 	describe("all", () => {
 		describe("when db is empty", () => {
-			it("returns an empty array", () => {
-				return expect(runPromise(service.all())).resolves.toHaveLength(0);
+			it.effect("returns an empty array", function* () {
+				expect(yield* service.all()).toHaveLength(0);
 			});
 		});
 
-		it("lists all users", async () => {
-			const user = await runPromise(service.create("joao"));
-			await expect(runPromise(service.all())).resolves.toEqual([user]);
+		it.effect("lists all users", function* () {
+			const user = yield* service.create("joao");
+			expect(yield* service.all()).toEqual([user]);
 		});
 	});
 });

@@ -1,4 +1,5 @@
 module.exports = {
+	setupFilesAfterEnv: ["<rootDir>/test/jest.setup.ts"],
 	collectCoverageFrom: ["src/**/*.ts"],
 	coverageDirectory: "coverage",
 	coveragePathIgnorePatterns: [
