@@ -1,6 +1,9 @@
-import { HttpServer } from "@effect/platform";
-import * as Http from "@effect/platform/HttpClient";
-import { HttpStatus, Injectable } from "@nestjs/common";
+import {
+	HttpClient,
+	HttpClientRequest,
+	HttpClientResponse,
+} from "@effect/platform";
+import { Injectable } from "@nestjs/common";
 import { Effect, Match, pipe } from "effect";
 import { PokeAPIConfig } from "./config";
 import { PokeAPINotFoundError } from "./errors/not-found.error";
@@ -15,9 +18,9 @@ export class PokeAPI {
 
 	getPokemon(name: string) {
 		return pipe(
-			Http.request.get(`${this.config.baseURL}/pokemon/${name}`),
-			Http.client.fetch,
-			Http.response.schemaBodyJsonScoped(PokemonSchema),
+			HttpClientRequest.get(`${this.config.baseURL}/pokemon/${name}`),
+			HttpClient.fetch,
+			HttpClientResponse.schemaBodyJsonScoped(PokemonSchema),
 			Effect.timeout(this.config.timeoutMilliseconds),
 			Effect.catchTags({
 				TimeoutException: (error) =>
