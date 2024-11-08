@@ -1,9 +1,9 @@
-import { Schema } from "@effect/schema";
+import { z } from "zod";
 
-export const PokemonSchema = Schema.Struct({
-	id: Schema.Number.pipe(Schema.positive()),
-	name: Schema.String.pipe(Schema.nonEmptyString()),
-	is_default: Schema.Boolean,
-	height: Schema.Number.pipe(Schema.positive()),
-	weight: Schema.Number.pipe(Schema.positive()),
+export const PokemonSchema = z.object({
+	id: z.number().positive(),
+	name: z.string().min(1),
+	is_default: z.boolean(),
+	height: z.number().positive(),
+	weight: z.number().positive(),
 });

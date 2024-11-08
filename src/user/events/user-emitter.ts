@@ -5,7 +5,7 @@ import { UserCreatedEvent } from "./user-created.event";
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class UserEmitter {
-	private context: string;
+	private context = "UserEmitter";
 
 	constructor(private readonly emitter: EventEmitterService) {}
 

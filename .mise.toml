@@ -17,7 +17,7 @@ run = 'k6 run ./test/k6/load-test.js'
 run = [
   'pnpm run check',
   'pnpm run build',
-  'pnpm run migrate down 0',
+  'pnpm run migrate down --to 0',
   'pnpm run migrate up',
   'pnpm run test',
   'pnpm run test:e2e',

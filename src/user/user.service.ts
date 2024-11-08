@@ -1,6 +1,4 @@
-import { randomUUID } from "node:crypto";
 import { Inject, Injectable } from "@nestjs/common";
-import { Effect, pipe } from "effect";
 import { RandomService } from "src/random/service";
 import { UserEmitter } from "./events/user-emitter";
 import { MikroRepository } from "./persistence/mikro.repository";
@@ -18,13 +16,13 @@ export class UserService {
 		this.emitter.setContext(UserService.name);
 	}
 
-	create(name: string) {
-		return pipe(
-			this.random.uuid(),
-			Effect.map((id) => new User(id, name)),
-			Effect.tap((user) => this.repository.persist(user)),
-			Effect.tap((user) => this.emitter.created(user)),
-		);
+	async create(name: string) {
+		const user = new User(this.random.uuid(), name);
+
+		await this.repository.persist(user);
+		this.emitter.created(user);
+
+		return user;
 	}
 
 	find(id: string) {

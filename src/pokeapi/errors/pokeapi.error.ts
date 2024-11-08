@@ -1,3 +1,3 @@
 export class PokeAPIError extends Error {
-	_tag = "PokeAPIError";
+	readonly name: string = "PokeAPIError";
 }

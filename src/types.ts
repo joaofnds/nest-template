@@ -16,8 +16,6 @@ export type Head<X extends readonly unknown[]> = ((
  * Extracts the tail of a tuple.
  * If you declare `Tail<[A, B, C]>` you will get back `[B, C]`.
  */
-export type Tail<X extends readonly unknown[]> = ((
-	...args: X
-) => unknown) extends (arg: unknown, ...rest: infer U) => unknown
-	? U
+export type Tail<T extends unknown[]> = T extends [unknown, ...infer T]
+	? T
 	: never;

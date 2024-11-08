@@ -21,9 +21,6 @@
 		"test:watch": "jest --watch --runInBand"
 	},
 	"dependencies": {
-		"@effect/platform": "^0.69.19",
-		"@effect/platform-node": "^0.64.21",
-		"@effect/schema": "^0.75.5",
 		"@mikro-orm/core": "^6.3.13",
 		"@mikro-orm/migrations": "^6.3.13",
 		"@mikro-orm/nestjs": "^6.0.2",
@@ -39,7 +36,6 @@
 		"@willsoto/nestjs-prometheus": "^6.0.1",
 		"bull": "^4.16.4",
 		"commander": "^12.1.0",
-		"effect": "^3.10.12",
 		"ioredis": "^5.4.1",
 		"js-yaml": "^4.1.0",
 		"lodash": "^4.17.21",

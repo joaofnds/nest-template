@@ -2,7 +2,6 @@ import { randomUUID } from "node:crypto";
 import { INestApplication } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { Test, TestingModule } from "@nestjs/testing";
-import { Effect, pipe } from "effect";
 import { AppModule } from "src/app.module";
 import { DBCleaner } from "test/db-cleaner";
 import { NotFoundError as UserNotFoundError } from "./errors/not-found.error";
@@ -38,44 +37,44 @@ describe(UserService, () => {
 	});
 
 	describe("create", () => {
-		it.effect("emits user.created event", function* () {
+		it("emits user.created event", async () => {
 			const events: unknown[] = [];
 			emitter.once(UserCreatedEvent.EventName, (event) => events.push(event));
 
-			const user = yield* service.create("joao");
+			const user = await service.create("joao");
 
 			expect(events).toEqual([new UserCreatedEvent(UserService.name, user)]);
 		});
 	});
 
 	describe("find", () => {
-		it.effect("returns the user", function* () {
-			const user = yield* service.create("joao");
-			const found = yield* service.find(user.id);
+		it("returns the user", async () => {
+			const user = await service.create("joao");
+			const found = await service.find(user.id);
 			expect(found).toEqual(user);
 		});
 
 		describe("when not found", () => {
-			it.effect("throws user not found", function* () {
+			it("throws user not found", async () => {
 				const id = randomUUID();
 
-				const result = yield* Effect.merge(service.find(id));
-
-				expect(result).toEqual(new UserNotFoundError(id));
+				await expect(service.find(id)).rejects.toEqual(
+					new UserNotFoundError(id),
+				);
 			});
 		});
 	});
 
 	describe("all", () => {
 		describe("when db is empty", () => {
-			it.effect("returns an empty array", function* () {
-				expect(yield* service.all()).toHaveLength(0);
+			it("returns an empty array", async () => {
+				await expect(service.all()).resolves.toHaveLength(0);
 			});
 		});
 
-		it.effect("lists all users", function* () {
-			const user = yield* service.create("joao");
-			expect(yield* service.all()).toEqual([user]);
+		it("lists all users", async () => {
+			const user = await service.create("joao");
+			await expect(service.all()).resolves.toEqual([user]);
 		});
 	});
 });
