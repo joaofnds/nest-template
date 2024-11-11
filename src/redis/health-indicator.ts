@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
 	HealthCheckError,
 	HealthIndicator,
@@ -16,10 +16,10 @@ export class RedisHealthIndicator extends HealthIndicator {
 		try {
 			await this.redis.ping();
 			return this.getStatus(key, true);
-		} catch (error) {
+		} catch {
 			throw new HealthCheckError(
 				`${RedisHealthIndicator.name} failed`,
-				this.getStatus(key, false, error),
+				this.getStatus(key, false),
 			);
 		}
 	}

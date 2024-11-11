@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS base
+FROM node:22-alpine AS base
 RUN corepack enable && corepack prepare pnpm@8.14.0 --activate
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
@@ -14,7 +14,7 @@ FROM base AS deps
 RUN pnpm install --prod
 
 
-FROM gcr.io/distroless/nodejs20:nonroot
+FROM gcr.io/distroless/nodejs22:nonroot
 
 ENV NODE_ENV=production
 USER 1000
