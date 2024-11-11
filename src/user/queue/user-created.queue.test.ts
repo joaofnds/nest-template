@@ -23,7 +23,11 @@ describe(UserCreatedQueue, () => {
 	it("enqueues a job with the event", async () => {
 		await queue.schedule(event);
 
-		expect(bullQueue.add).toHaveBeenCalledWith(event, expect.anything());
+		expect(bullQueue.add).toHaveBeenCalledWith(
+			"user.created",
+			event,
+			expect.anything(),
+		);
 	});
 
 	it.each([
@@ -38,6 +42,7 @@ describe(UserCreatedQueue, () => {
 		await queue.schedule(event);
 
 		expect(bullQueue.add).toHaveBeenCalledWith(
+			"user.created",
 			expect.any(UserCreatedEvent),
 			expect.objectContaining(spec),
 		);

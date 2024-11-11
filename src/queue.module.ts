@@ -1,4 +1,4 @@
-import { BullModule } from "@nestjs/bull";
+import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 import { RedisConfig } from "./redis/config";
 import { RedisModule } from "./redis/module";
@@ -8,7 +8,9 @@ import { RedisModule } from "./redis/module";
 		BullModule.forRootAsync({
 			imports: [RedisModule],
 			inject: [RedisConfig],
-			useFactory: (redisConfig: RedisConfig) => ({ redis: redisConfig.uri }),
+			useFactory: (redisConfig: RedisConfig) => ({
+				connection: { url: redisConfig.uri },
+			}),
 		}),
 	],
 })

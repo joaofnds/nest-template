@@ -1,12 +1,12 @@
-import { InjectQueue } from "@nestjs/bull";
+import { InjectQueue } from "@nestjs/bullmq";
 import { Injectable } from "@nestjs/common";
-import { Queue } from "bull";
+import { Queue } from "bullmq";
 import { time } from "src/lib/time";
 import { UserCreatedEvent } from "../events/user-created.event";
 
 @Injectable()
 export class UserCreatedQueue {
-	public static readonly QueueName: "user.created";
+	static readonly QueueName = "user.created";
 
 	constructor(
 		@InjectQueue(UserCreatedQueue.QueueName)
@@ -14,7 +14,7 @@ export class UserCreatedQueue {
 	) {}
 
 	async schedule(event: UserCreatedEvent) {
-		await this.queue.add(event, {
+		await this.queue.add(UserCreatedQueue.QueueName, event, {
 			jobId: event.user.id,
 			removeOnComplete: true,
 			attempts: 5,
