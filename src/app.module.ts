@@ -7,7 +7,8 @@ import { EventEmitterModule } from "./event-emitter/module";
 import { HealthModule } from "./health/health.module";
 import { LoggerModule } from "./logger.module";
 import { PokeAPIHTTPModule } from "./pokeapi/http/module";
-import { QueueModule } from "./queue.module";
+import { BullBoardModule } from "./queue/bull-board.module";
+import { QueueModule } from "./queue/queue.module";
 import { RedisModule } from "./redis/module";
 import { ThrottlerModule } from "./throttler/module";
 import { UserHTTPModule } from "./user/http/module";
@@ -26,6 +27,7 @@ import { UserWorkerModule } from "./user/worker/module";
 		EventEmitterModule,
 		PrometheusModule.register(),
 		QueueModule,
+		BullBoardModule,
 		HealthModule,
 
 		UserHTTPModule,
