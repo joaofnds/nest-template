@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
-import { DBCleaner } from "./db-cleaner";
+import { DBHarness } from "./db-harness";
 import { ApplicationDriver } from "./driver/application.driver";
 import { RequestRecorder } from "./nock/recorder";
 
@@ -11,7 +11,7 @@ type TestHarnessConfig = {
 
 export class TestHarness {
 	readonly driver: ApplicationDriver;
-	readonly dbCleaner: DBCleaner;
+	readonly db: DBHarness;
 	readonly recorder?: RequestRecorder;
 
 	constructor(
@@ -19,7 +19,7 @@ export class TestHarness {
 		config?: TestHarnessConfig,
 	) {
 		this.driver = ApplicationDriver.for(app);
-		this.dbCleaner = DBCleaner.for(app);
+		this.db = DBHarness.for(app);
 		if (config?.useRequestRecorder) this.recorder = new RequestRecorder();
 	}
 

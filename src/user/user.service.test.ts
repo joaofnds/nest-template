@@ -1,9 +1,9 @@
 import { randomUUID } from "node:crypto";
 import { INestApplication } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { Test, TestingModule } from "@nestjs/testing";
+import { Test } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
-import { DBCleaner } from "test/db-cleaner";
+import { DBHarness } from "test/db-harness";
 import { NotFoundError as UserNotFoundError } from "./errors/not-found.error";
 import { UserCreatedEvent } from "./events/user-created.event";
 import { UserService } from "./user.service";
@@ -12,10 +12,10 @@ describe(UserService, () => {
 	let app: INestApplication;
 	let service: UserService;
 	let emitter: EventEmitter2;
-	let cleaner: DBCleaner;
+	let db: DBHarness;
 
 	beforeAll(async () => {
-		const appModule: TestingModule = await Test.createTestingModule({
+		const appModule = await Test.createTestingModule({
 			imports: [AppModule],
 		}).compile();
 
@@ -23,17 +23,21 @@ describe(UserService, () => {
 
 		service = app.get(UserService);
 		emitter = app.get(EventEmitter2);
-		cleaner = DBCleaner.for(app);
+		db = DBHarness.for(app);
 
 		await app.init();
 	});
 
-	afterAll(async () => {
-		await app.close();
+	beforeEach(async () => {
+		await db.begin();
 	});
 
-	beforeEach(async () => {
-		await cleaner.clean();
+	afterEach(async () => {
+		await db.rollback();
+	});
+
+	afterAll(async () => {
+		await app.close();
 	});
 
 	describe("create", () => {

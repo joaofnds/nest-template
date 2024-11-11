@@ -13,7 +13,11 @@ describe("/users", () => {
 	});
 
 	beforeEach(async () => {
-		await harness.dbCleaner.clean();
+		await harness.db.begin();
+	});
+
+	afterEach(async () => {
+		await harness.db.rollback();
 	});
 
 	afterAll(async () => {

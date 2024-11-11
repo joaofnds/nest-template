@@ -7,10 +7,9 @@ import {
 	MikroOrmHealthIndicator,
 	TerminusModule,
 } from "@nestjs/terminus";
-import { Test, TestingModule } from "@nestjs/testing";
+import { Test } from "@nestjs/testing";
 import { RedisHealthIndicator } from "src/redis/health-indicator";
 import { HealthController } from "./health.controller";
-import { HealthModule } from "./health.module";
 
 describe("HealthController", () => {
 	let controller: HealthController;
@@ -23,14 +22,9 @@ describe("HealthController", () => {
 		mikroORMIndicator = new FakeMikroORMHealthIndicator();
 		redisIndicator = new FakeRedisHealthIndicator();
 
-		const module: TestingModule = await Test.createTestingModule({
+		const module = await Test.createTestingModule({
 			imports: [TerminusModule],
-			providers: [
-				{
-					provide: RedisHealthIndicator,
-					useValue: redisIndicator,
-				},
-			],
+			providers: [{ provide: RedisHealthIndicator, useValue: redisIndicator }],
 			controllers: [HealthController],
 		})
 			.overrideProvider(MemoryHealthIndicator)
