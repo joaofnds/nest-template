@@ -1,0 +1,10 @@
+throttler:
+  ttl: 1000
+  limit: 10
+
+redis:
+  family: 6
+
+pokeAPI:
+  baseURL: https://pokeapi.co/api/v2
+  timeoutMilliseconds: 5000
