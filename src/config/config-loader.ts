@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from "node:fs";
 import { load as loadYAML } from "js-yaml";
 import { merge } from "lodash";
+import { existsSync, readFileSync } from "node:fs";
 import { AppConfig } from "./app.config";
 
 export class ConfigLoader {
@@ -19,9 +19,12 @@ export class ConfigLoader {
 		return new ConfigLoader().load();
 	}
 
-	load(): AppConfig {
-		const config = merge(this.config(), this.localOverrides());
-		return AppConfig.parse(config);
+	load() {
+		return merge(
+			this.config(),
+			this.localOverrides(),
+			AppConfig.envOverrides(),
+		);
 	}
 
 	private config() {

@@ -10,4 +10,8 @@ export class DatabaseConfig {
 	static fromPlain(config: z.infer<typeof databaseConfigSchema>) {
 		return new DatabaseConfig(config.url);
 	}
+
+	static envOverrides() {
+		return { url: process.env.DATABASE_URL };
+	}
 }

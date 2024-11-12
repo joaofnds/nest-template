@@ -21,4 +21,8 @@ export class PokeAPIConfig {
 	static fromPlain(config: z.infer<typeof pokeAPIConfigSchema>) {
 		return new PokeAPIConfig(config.baseURL, config.timeoutMilliseconds);
 	}
+
+	static envOverrides() {
+		return {};
+	}
 }

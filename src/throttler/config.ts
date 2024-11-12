@@ -14,4 +14,8 @@ export class ThrottlerConfig {
 	static fromPlain(config: z.infer<typeof throttlerConfigSchema>) {
 		return new ThrottlerConfig(config.ttl, config.limit);
 	}
+
+	static envOverrides() {
+		return {};
+	}
 }

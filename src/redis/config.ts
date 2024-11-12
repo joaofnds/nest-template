@@ -14,4 +14,8 @@ export class RedisConfig {
 	static fromPlain(config: z.infer<typeof redisConfigSchema>) {
 		return new RedisConfig(config.url, config.family);
 	}
+
+	static envOverrides() {
+		return { url: process.env.REDIS_URL };
+	}
 }

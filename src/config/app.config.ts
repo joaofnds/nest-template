@@ -31,4 +31,13 @@ export class AppConfig {
 	static parse(config: unknown) {
 		return AppConfig.fromPlain(appConfigSchema.parse(config));
 	}
+
+	static envOverrides() {
+		return {
+			throttler: ThrottlerConfig.envOverrides(),
+			database: DatabaseConfig.envOverrides(),
+			redis: RedisConfig.envOverrides(),
+			pokeAPI: PokeAPIConfig.envOverrides(),
+		};
+	}
 }
