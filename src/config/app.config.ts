@@ -1,17 +1,17 @@
-import { PokeAPIConfig, pokeAPIConfigSchema } from "src/pokeapi/config";
+import { PokeAPIConfig } from "src/pokeapi/config";
 import { z } from "zod";
-import { DatabaseConfig, databaseConfigSchema } from "../database/config";
-import { RedisConfig, redisConfigSchema } from "../redis/config";
-import { ThrottlerConfig, throttlerConfigSchema } from "../throttler/config";
-
-const appConfigSchema = z.object({
-	throttler: throttlerConfigSchema,
-	database: databaseConfigSchema,
-	redis: redisConfigSchema,
-	pokeAPI: pokeAPIConfigSchema,
-});
+import { DatabaseConfig } from "../database/config";
+import { RedisConfig } from "../redis/config";
+import { ThrottlerConfig } from "../throttler/config";
 
 export class AppConfig {
+	static readonly schema = z.object({
+		throttler: ThrottlerConfig.schema,
+		database: DatabaseConfig.schema,
+		redis: RedisConfig.schema,
+		pokeAPI: PokeAPIConfig.schema,
+	});
+
 	constructor(
 		readonly throttler: ThrottlerConfig,
 		readonly database: DatabaseConfig,
@@ -19,7 +19,7 @@ export class AppConfig {
 		readonly pokeAPI: PokeAPIConfig,
 	) {}
 
-	static fromPlain(config: z.infer<typeof appConfigSchema>) {
+	static fromPlain(config: z.infer<typeof AppConfig.schema>) {
 		return new AppConfig(
 			ThrottlerConfig.fromPlain(config.throttler),
 			DatabaseConfig.fromPlain(config.database),
@@ -29,7 +29,7 @@ export class AppConfig {
 	}
 
 	static parse(config: unknown) {
-		return AppConfig.fromPlain(appConfigSchema.parse(config));
+		return AppConfig.fromPlain(AppConfig.schema.parse(config));
 	}
 
 	static envOverrides() {
