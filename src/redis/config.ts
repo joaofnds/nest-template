@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 export const redisConfigSchema = z.object({
-	uri: z.string().startsWith("redis://").url(),
+	url: z.string().startsWith("redis://").url(),
 });
 
 export class RedisConfig {
-	constructor(readonly uri: string) {}
+	constructor(readonly url: string) {}
 
 	static fromPlain(config: z.infer<typeof redisConfigSchema>) {
-		return new RedisConfig(config.uri);
+		return new RedisConfig(config.url);
 	}
 }

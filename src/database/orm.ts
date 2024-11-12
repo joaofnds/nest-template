@@ -15,7 +15,7 @@ import { DatabaseModule } from "./module";
 				allowGlobalContext: true,
 				entities: [User],
 				...defineConfig({
-					clientUrl: config.uri,
+					clientUrl: config.url,
 					extensions: [Migrator],
 				}),
 			}),

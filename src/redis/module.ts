@@ -16,7 +16,7 @@ import { RedisHealthIndicator } from "./health-indicator";
 		{
 			provide: Redis,
 			inject: [RedisConfig],
-			useFactory: (config: RedisConfig) => new Redis(config.uri),
+			useFactory: (config: RedisConfig) => new Redis(config.url),
 		},
 		RedisHealthIndicator,
 	],

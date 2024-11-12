@@ -9,7 +9,7 @@ import { RedisModule } from "../redis/module";
 			imports: [RedisModule],
 			inject: [RedisConfig],
 			useFactory: (redisConfig: RedisConfig) => ({
-				connection: { url: redisConfig.uri },
+				connection: { url: redisConfig.url },
 			}),
 		}),
 	],

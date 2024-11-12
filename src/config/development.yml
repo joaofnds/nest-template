@@ -3,10 +3,10 @@ throttler:
   limit: 10
 
 database:
-  uri: postgres://postgres:postgres@localhost:5432/template
+  url: postgres://postgres:postgres@localhost:5432/template
 
 redis:
-  uri: redis://localhost:6379
+  url: redis://localhost:6379
 
 pokeAPI:
   baseURL: https://pokeapi.co/api/v2
