@@ -18,7 +18,8 @@ import { ConfigLoader } from "./config-loader";
 		{
 			provide: AppConfig,
 			inject: [ConfigService],
-			useFactory: (config: ConfigService) => get(config, "internalConfig"),
+			useFactory: (config: ConfigService) =>
+				AppConfig.parse(get(config, "internalConfig")),
 		},
 	],
 	exports: [AppConfig],
