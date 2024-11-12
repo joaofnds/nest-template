@@ -38,7 +38,7 @@ export class ConfigLoader {
 	}
 
 	private configPath(name: string) {
-		return `src/config/${name}.yml`;
+		return `src/config/${name}.yaml`;
 	}
 
 	private loadConfig(path: string) {
