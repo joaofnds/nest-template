@@ -1,5 +1,5 @@
 [env]
-OTEL_EXPORTER_OTLP_ENDPOINT = 'http://0.0.0.0:4318'
+CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
 node = "latest"

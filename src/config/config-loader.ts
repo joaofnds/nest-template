@@ -1,44 +1,32 @@
 import { existsSync, readFileSync } from "node:fs";
 import { load as loadYAML } from "js-yaml";
 import { merge } from "lodash";
+import { z } from "zod";
 import { AppConfig } from "./app.config";
 
 export class ConfigLoader {
-	private readonly defaultEnv = "development";
-	private readonly env = process.env.NODE_ENV || this.defaultEnv;
-	private readonly envConfigPath = this.configPath(this.env);
-	private readonly localConfigPath = this.configPath("local");
+	static readonly envSchema = z.object({
+		CONFIG_PATH: z.string().min(5),
+	});
+
+	private readonly configPath: string;
+	private readonly localConfigPath = "src/config/local.yaml";
 
 	constructor() {
-		if (!existsSync(this.envConfigPath)) {
-			throw new Error(`config file missing: ${this.envConfigPath}`);
-		}
-	}
-
-	static load() {
-		return new ConfigLoader().load();
+		const env = ConfigLoader.envSchema.parse(process.env);
+		this.configPath = env.CONFIG_PATH;
 	}
 
 	load() {
 		return merge(
-			this.config(),
-			this.localOverrides(),
+			this.loadConfig(this.configPath),
+			this.loadConfigIfExists(this.localConfigPath),
 			AppConfig.envOverrides(),
 		);
 	}
 
-	private config() {
-		return this.loadConfig(this.envConfigPath);
-	}
-
-	private localOverrides() {
-		if (!existsSync(this.localConfigPath)) return {};
-
-		return this.loadConfig(this.localConfigPath);
-	}
-
-	private configPath(name: string) {
-		return `src/config/${name}.yaml`;
+	private loadConfigIfExists(path: string) {
+		if (existsSync(path)) return this.loadConfig(path);
 	}
 
 	private loadConfig(path: string) {

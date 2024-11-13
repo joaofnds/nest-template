@@ -29,6 +29,8 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      CONFIG_PATH: src/config/test.yaml
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3

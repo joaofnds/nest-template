@@ -11,7 +11,7 @@ import { ConfigLoader } from "./config-loader";
 	imports: [
 		NestConfigModule.forRoot({
 			ignoreEnvVars: true,
-			load: [ConfigLoader.load],
+			load: [() => new ConfigLoader().load()],
 		}),
 	],
 	providers: [

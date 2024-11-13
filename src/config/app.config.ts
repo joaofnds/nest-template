@@ -19,17 +19,15 @@ export class AppConfig {
 		readonly pokeAPI: PokeAPIConfig,
 	) {}
 
-	static fromPlain(config: z.infer<typeof AppConfig.schema>) {
-		return new AppConfig(
-			ThrottlerConfig.fromPlain(config.throttler),
-			DatabaseConfig.fromPlain(config.database),
-			RedisConfig.fromPlain(config.redis),
-			PokeAPIConfig.fromPlain(config.pokeAPI),
-		);
-	}
-
 	static parse(config: unknown) {
-		return AppConfig.fromPlain(AppConfig.schema.parse(config));
+		const parsedConfig = AppConfig.schema.parse(config);
+
+		return new AppConfig(
+			ThrottlerConfig.fromPlain(parsedConfig.throttler),
+			DatabaseConfig.fromPlain(parsedConfig.database),
+			RedisConfig.fromPlain(parsedConfig.redis),
+			PokeAPIConfig.fromPlain(parsedConfig.pokeAPI),
+		);
 	}
 
 	static envOverrides() {

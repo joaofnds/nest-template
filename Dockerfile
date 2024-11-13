@@ -19,8 +19,8 @@ FROM gcr.io/distroless/nodejs22:nonroot
 ENV NODE_ENV=production
 USER 1000
 WORKDIR /app
-COPY --from=build /app/dist/ ./dist
+COPY --from=build /app/dist/ .
 COPY --from=deps /app/node_modules/ ./node_modules
 
 EXPOSE 3000
-CMD ["dist/main.js"]
+CMD ["main.js"]

@@ -1,6 +1,6 @@
 {
-	"$schema": "https://json.schemastore.org/swcrc",
-	"sourceMaps": true,
+	"$schema": "https://swc.rs/schema.json",
+	"sourceMaps": false,
 	"jsc": {
 		"baseUrl": "./",
 		"paths": {
@@ -15,6 +15,5 @@
 			"legacyDecorator": true,
 			"decoratorMetadata": true
 		}
-	},
-	"minify": false
+	}
 }
