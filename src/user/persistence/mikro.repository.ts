@@ -7,7 +7,7 @@ import { User } from "../user";
 import { UserRepository } from "../user.repository";
 
 @Injectable()
-export class MikroRepository implements UserRepository {
+export class MikroUserRepository implements UserRepository {
 	constructor(private readonly entityManager: EntityManager) {}
 
 	async persist(user: User): Promise<void> {

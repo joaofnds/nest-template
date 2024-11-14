@@ -1,14 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { RandomService } from "src/random/service";
 import { UserEmitter } from "./events/user-emitter";
-import { MikroRepository } from "./persistence/mikro.repository";
+import { MikroUserRepository } from "./persistence/mikro.repository";
 import { User } from "./user";
 import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {
 	constructor(
-		@Inject(MikroRepository)
+		@Inject(MikroUserRepository)
 		private readonly repository: UserRepository,
 		private readonly emitter: UserEmitter,
 		private readonly random: RandomService,

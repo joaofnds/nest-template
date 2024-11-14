@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { AppConfig } from "src/config/app.config";
-import { ConfigModule } from "src/config/config.module";
+import { AppConfigModule } from "src/config/config.module";
 import { PokeAPI } from "./api";
 import { PokeAPIConfig } from "./config";
 
 @Module({
-	imports: [ConfigModule],
+	imports: [AppConfigModule],
 	providers: [
 		{
 			provide: PokeAPIConfig,

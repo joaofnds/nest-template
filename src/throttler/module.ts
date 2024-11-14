@@ -5,12 +5,12 @@ import {
 	ThrottlerGuard,
 } from "@nestjs/throttler";
 import { AppConfig } from "src/config/app.config";
-import { ConfigModule } from "src/config/config.module";
+import { AppConfigModule } from "src/config/config.module";
 
 @Module({
 	imports: [
 		NestThrottlerModule.forRootAsync({
-			imports: [ConfigModule],
+			imports: [AppConfigModule],
 			inject: [AppConfig],
 			useFactory: (config: AppConfig) => [
 				{

@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { AppConfig } from "src/config/app.config";
-import { ConfigModule } from "../config/config.module";
+import { AppConfigModule } from "../config/config.module";
 import { DatabaseConfig } from "./config";
 
 @Module({
-	imports: [ConfigModule],
+	imports: [AppConfigModule],
 	providers: [
 		{
 			provide: DatabaseConfig,

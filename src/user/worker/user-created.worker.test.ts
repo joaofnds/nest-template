@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { Job } from "bull";
+import { Job } from "bullmq";
 import { PinoLogger } from "nestjs-pino";
 import { UserCreatedEvent } from "../events/user-created.event";
 import { User } from "../user";

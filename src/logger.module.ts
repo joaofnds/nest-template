@@ -4,4 +4,4 @@ import { LoggerModule as PinoLoggerModule } from "nestjs-pino";
 @Module({
 	imports: [PinoLoggerModule.forRoot({ pinoHttp: { enabled: true } })],
 })
-export class LoggerModule {}
+export class AppLoggerModule {}

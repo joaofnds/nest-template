@@ -1,15 +1,12 @@
 import { Module } from "@nestjs/common";
-import {
-	ConfigService,
-	ConfigModule as NestConfigModule,
-} from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { get } from "lodash";
 import { AppConfig } from "./app.config";
 import { ConfigLoader } from "./config-loader";
 
 @Module({
 	imports: [
-		NestConfigModule.forRoot({
+		ConfigModule.forRoot({
 			ignoreEnvVars: true,
 			load: [() => new ConfigLoader().load()],
 		}),
@@ -24,4 +21,4 @@ import { ConfigLoader } from "./config-loader";
 	],
 	exports: [AppConfig],
 })
-export class ConfigModule {}
+export class AppConfigModule {}
