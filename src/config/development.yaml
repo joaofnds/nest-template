@@ -1,3 +1,6 @@
+logger:
+  http: true
+
 throttler:
   ttl: 1000
   limit: 10

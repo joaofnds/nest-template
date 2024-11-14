@@ -5,7 +5,7 @@ import { DatabaseModule } from "./database/module";
 import { ORMModule } from "./database/orm";
 import { EventEmitterModule } from "./event-emitter/module";
 import { HealthModule } from "./health/health.module";
-import { AppLoggerModule } from "./logger.module";
+import { AppLoggerModule } from "./logger/logger.module";
 import { PokeAPIHTTPModule } from "./pokeapi/http/module";
 import { BullBoardModule } from "./queue/bull-board.module";
 import { QueueModule } from "./queue/queue.module";
@@ -19,11 +19,11 @@ import { UserWorkerModule } from "./user/worker/module";
 @Module({
 	imports: [
 		AppConfigModule,
+		AppLoggerModule,
 		ThrottlerModule,
 		RedisModule,
 		DatabaseModule,
 		ORMModule,
-		AppLoggerModule,
 		EventEmitterModule,
 		PrometheusModule.register(),
 		QueueModule,
