@@ -9,7 +9,10 @@ import { AppConfigModule } from "src/config/config.module";
 			imports: [AppConfigModule],
 			inject: [AppConfig],
 			useFactory: (config: AppConfig) => ({
-				pinoHttp: { enabled: config.logger.http },
+				pinoHttp: {
+					level: config.logger.level,
+					enabled: config.logger.http,
+				},
 			}),
 		}),
 	],
