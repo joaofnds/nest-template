@@ -4,11 +4,11 @@ import {
 	HttpStatus,
 	PipeTransform,
 } from "@nestjs/common";
-import { ZodSchema } from "zod";
+import { ZodType } from "zod";
 
 export class ZodPipe implements PipeTransform {
 	transform(value: unknown, { metatype }: ArgumentMetadata) {
-		if (!metatype || !(metatype instanceof ZodSchema)) {
+		if (!metatype || !(metatype instanceof ZodType)) {
 			return value;
 		}
 

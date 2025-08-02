@@ -66,7 +66,7 @@ describe("/users", () => {
 						errors: [
 							{
 								path: ["name"],
-								message: "String must contain at least 3 character(s)",
+								message: "Too small: expected string to have >=3 characters",
 							},
 						],
 					},

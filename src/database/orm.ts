@@ -1,6 +1,6 @@
 import { Migrator } from "@mikro-orm/migrations";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
-import { PostgreSqlDriver, defineConfig } from "@mikro-orm/postgresql";
+import { defineConfig, PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { Module } from "@nestjs/common";
 import { User } from "../user/user";
 import { DatabaseConfig } from "./config";

@@ -33,10 +33,10 @@ jobs:
       CONFIG_PATH: src/config/test.yaml
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'pnpm'
       - run: docker compose up -d &
       - run: pnpm install
@@ -50,7 +50,7 @@ jobs:
     needs: [gitleaks, lint-dockerfile, test]
     runs-on: ubuntu-latest
     steps:
-      - uses: joaofnds/semantic-release-action@v1.3.0
+      - uses: joaofnds/semantic-release-action@v1.4.0
         with:
           plugins: 'conventional-changelog-conventionalcommits'
         env:
