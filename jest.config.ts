@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from "jest";
+
+export default {
 	collectCoverageFrom: ["src/**/*.ts"],
 	coverageDirectory: "coverage",
 	coveragePathIgnorePatterns: [
@@ -23,4 +25,4 @@ module.exports = {
 		"^src/(.*)": "<rootDir>/src/$1",
 		"^test/(.*)": "<rootDir>/test/$1",
 	},
-};
+} satisfies Config;

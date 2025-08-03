@@ -11,7 +11,7 @@ run = ['limactl start default', 'docker compose up -d']
 run = ['docker compose down', 'limactl stop default']
 
 [tasks.test-load]
-run = 'k6 run ./test/k6/load-test.js'
+run = 'k6 run ./test/k6/load-test.ts'
 
 [tasks.ci]
 run = [

@@ -2,11 +2,13 @@
 	"compilerOptions": {
 		"strict": true,
 		"module": "commonjs",
+		"noEmit": true,
 		"declaration": true,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": true,
 		"target": "es2022",
 		"sourceMap": true,
 		"outDir": "./dist",
