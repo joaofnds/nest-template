@@ -3,9 +3,7 @@ name: commit
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'README.md'
-      - 'CHANGELOG.md'
+    paths-ignore: ['README.md']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -14,7 +12,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v2
@@ -24,21 +22,18 @@ jobs:
   lint-dockerfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: hadolint/hadolint-action@v3.1.0
+      - uses: actions/checkout@v5
+      - uses: hadolint/hadolint-action@v3.2.0
 
   test:
     runs-on: ubuntu-latest
     env:
       CONFIG_PATH: src/config/test.yaml
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v3
       - run: docker compose up -d &
+      - run: corepack enable
       - run: pnpm install
       - run: pnpm run check
       - run: pnpm run build
@@ -52,6 +47,6 @@ jobs:
     steps:
       - uses: joaofnds/semantic-release-action@v1.4.0
         with:
-          plugins: 'conventional-changelog-conventionalcommits'
+          plugins: conventional-changelog-conventionalcommits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

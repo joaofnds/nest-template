@@ -2,7 +2,7 @@
 CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
-node = "latest"
+node = "24.8.0"
 
 [tasks.up]
 run = ['limactl start default', 'docker compose up -d']
