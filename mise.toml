@@ -2,13 +2,13 @@
 CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
-node = "24.8.0"
+node = "24.9.0"
 
 [tasks.up]
-run = ['limactl start default', 'docker compose up -d']
+run = ['docker compose up -d']
 
 [tasks.down]
-run = ['docker compose down', 'limactl stop default']
+run = ['docker compose down']
 
 [tasks.test-load]
 run = 'k6 run ./test/k6/load-test.ts'
