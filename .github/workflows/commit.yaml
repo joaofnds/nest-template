@@ -12,7 +12,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v2
@@ -22,15 +22,15 @@ jobs:
   lint-dockerfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: hadolint/hadolint-action@v3.2.0
+      - uses: actions/checkout@v6
+      - uses: hadolint/hadolint-action@v3.3.0
 
   test:
     runs-on: ubuntu-latest
     env:
       CONFIG_PATH: src/config/test.yaml
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: jdx/mise-action@v3
       - run: docker compose up -d &
       - run: corepack enable

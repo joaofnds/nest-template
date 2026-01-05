@@ -1,4 +1,4 @@
-FROM node:24-alpine AS base
+FROM node:25-alpine AS base
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable && corepack install
@@ -14,7 +14,7 @@ FROM base AS deps
 RUN pnpm install --prod
 
 
-FROM gcr.io/distroless/nodejs24:nonroot
+FROM gcr.io/distroless/nodejs25:nonroot
 
 ENV NODE_ENV=production
 USER 1000
