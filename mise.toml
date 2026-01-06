@@ -3,6 +3,7 @@ CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
 node = "25.2.1"
+pnpm = "10.27.0"
 
 [tasks.up]
 run = ['docker compose up -d']

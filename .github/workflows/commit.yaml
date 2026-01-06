@@ -33,7 +33,6 @@ jobs:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v3
       - run: docker compose up -d &
-      - run: corepack enable
       - run: pnpm install
       - run: pnpm run check
       - run: pnpm run build
