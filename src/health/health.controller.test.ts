@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from "bun:test";
 import { ServiceUnavailableException } from "@nestjs/common";
 import {
 	HealthCheckError,
@@ -67,7 +68,7 @@ describe("HealthController", () => {
 		it("reports the failure", async () => {
 			memoryIndicator.setNextHeapStatus("down");
 
-			await expect(() => controller.check()).rejects.toThrow(
+			await expect(controller.check()).rejects.toThrow(
 				ServiceUnavailableException,
 			);
 		});
@@ -77,7 +78,7 @@ describe("HealthController", () => {
 		it("reports the failure", async () => {
 			memoryIndicator.setNextRSSStatus("down");
 
-			await expect(() => controller.check()).rejects.toThrow(
+			await expect(controller.check()).rejects.toThrow(
 				ServiceUnavailableException,
 			);
 		});
@@ -87,7 +88,7 @@ describe("HealthController", () => {
 		it("reports the failure", async () => {
 			mikroORMIndicator.setNextStatus("down");
 
-			await expect(() => controller.check()).rejects.toThrow(
+			await expect(controller.check()).rejects.toThrow(
 				ServiceUnavailableException,
 			);
 		});
@@ -97,7 +98,7 @@ describe("HealthController", () => {
 		it("reports the failure", async () => {
 			redisIndicator.setNextStatus("down");
 
-			await expect(() => controller.check()).rejects.toThrow(
+			await expect(controller.check()).rejects.toThrow(
 				ServiceUnavailableException,
 			);
 		});

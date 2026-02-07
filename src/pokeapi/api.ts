@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import type { HTTPService } from "src/lib/http/http.service";
 import { PokeAPIConfig } from "./config";
 import { PokeAPINotFoundError } from "./errors/not-found.error";
 import { PokeAPIError } from "./errors/pokeapi.error";
@@ -7,12 +8,15 @@ import { PokemonSchema } from "./schemas/pokemon.schema";
 
 @Injectable()
 export class PokeAPI {
-	constructor(private readonly config: PokeAPIConfig) {}
+	constructor(
+		private readonly config: PokeAPIConfig,
+		private readonly http: HTTPService,
+	) {}
 
 	async getPokemon(name: string) {
 		let res: Response;
 		try {
-			res = await fetch(`${this.config.baseURL}/pokemon/${name}`, {
+			res = await this.http.get(`${this.config.baseURL}/pokemon/${name}`, {
 				signal: AbortSignal.timeout(this.config.timeoutMilliseconds),
 			});
 		} catch (error: unknown) {

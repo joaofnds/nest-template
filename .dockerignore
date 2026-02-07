@@ -1,9 +1,7 @@
 **/*
 !mise.toml
 !package.json
-!pnpm-lock.yaml
+!bun.lock
 !tsconfig.json
-!tsconfig.build.json
-!nest-cli.json
-!.swcrc
 !src
+!scripts

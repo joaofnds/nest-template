@@ -3,7 +3,7 @@ import { RandomService } from "src/random/service";
 import { UserEmitter } from "./events/user-emitter";
 import { MikroUserRepository } from "./persistence/mikro.repository";
 import { User } from "./user";
-import { UserRepository } from "./user.repository";
+import type { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {

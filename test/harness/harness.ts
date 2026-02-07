@@ -1,34 +1,37 @@
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
+import { ApplicationDriver } from "../driver/application.driver";
+import { ModuleCustomizer } from "./customizations";
 import { DBHarness } from "./db-harness";
-import { ApplicationDriver } from "./driver/application.driver";
-import { RequestRecorder } from "./nock/recorder";
 
 type TestHarnessConfig = {
-	useRequestRecorder?: boolean;
+	moduleCustomizers?: ModuleCustomizer[];
 };
 
 export class TestHarness {
 	readonly driver: ApplicationDriver;
 	readonly db: DBHarness;
-	readonly recorder?: RequestRecorder;
 
 	constructor(
 		readonly app: INestApplication,
-		config?: TestHarnessConfig,
+		readonly config?: TestHarnessConfig,
 	) {
 		this.driver = ApplicationDriver.for(app);
 		this.db = DBHarness.for(app);
-		if (config?.useRequestRecorder) this.recorder = new RequestRecorder();
 	}
 
 	static async setup(config?: TestHarnessConfig) {
-		const moduleFixture = await Test.createTestingModule({
+		const testingModuleBuilder = Test.createTestingModule({
 			imports: [AppModule],
-		}).compile();
-		const app = moduleFixture.createNestApplication();
-		await app.init();
+		});
+
+		for (const customizer of config?.moduleCustomizers ?? []) {
+			customizer(testingModuleBuilder);
+		}
+
+		const testingModule = await testingModuleBuilder.compile();
+		const app = testingModule.createNestApplication();
 
 		const harness = new TestHarness(app, config);
 		await harness.setup();
@@ -36,11 +39,10 @@ export class TestHarness {
 	}
 
 	async setup() {
-		await this.recorder?.setup();
+		await this.app.init();
 	}
 
 	async teardown() {
 		await this.app.close();
-		await this.recorder?.teardown();
 	}
 }

@@ -1,6 +1,15 @@
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+} from "bun:test";
 import { HttpStatus } from "@nestjs/common";
 import { ApplicationDriver } from "test/driver/application.driver";
-import { TestHarness } from "test/harness";
+import { TestHarness } from "test/harness/harness";
 import { containing } from "test/util/containing";
 
 describe("/users", () => {

@@ -1,6 +1,10 @@
+import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { ExpressAdapter } from "@bull-board/express";
-import { BullBoardModule as NestJSBullBoardModule } from "@bull-board/nestjs";
-import { Module } from "@nestjs/common";
+import {
+	BullBoardQueueOptions,
+	BullBoardModule as NestJSBullBoardModule,
+} from "@bull-board/nestjs";
+import { Module, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 
 @Module({
 	imports: [
@@ -10,4 +14,15 @@ import { Module } from "@nestjs/common";
 		}),
 	],
 })
-export class BullBoardModule {}
+export class BullBoardModule implements OnModuleInit, OnModuleDestroy {
+	static forFeature(options: Omit<BullBoardQueueOptions, "adapter">) {
+		return NestJSBullBoardModule.forFeature({
+			adapter: BullMQAdapter,
+			...options,
+		});
+	}
+
+	onModuleDestroy() {}
+
+	onModuleInit() {}
+}

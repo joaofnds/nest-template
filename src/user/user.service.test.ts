@@ -1,9 +1,18 @@
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+} from "bun:test";
 import { randomUUID } from "node:crypto";
 import { INestApplication } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { Test } from "@nestjs/testing";
 import { AppModule } from "src/app.module";
-import { DBHarness } from "test/db-harness";
+import { DBHarness } from "test/harness/db-harness";
 import { NotFoundError as UserNotFoundError } from "./errors/not-found.error";
 import { UserCreatedEvent } from "./events/user-created.event";
 import { UserService } from "./user.service";
@@ -26,6 +35,7 @@ describe(UserService, () => {
 		db = DBHarness.for(app);
 
 		await app.init();
+		await db.clean();
 	});
 
 	beforeEach(async () => {
@@ -62,9 +72,7 @@ describe(UserService, () => {
 			it("throws user not found", async () => {
 				const id = randomUUID();
 
-				await expect(service.find(id)).rejects.toEqual(
-					new UserNotFoundError(id),
-				);
+				expect(service.find(id)).rejects.toEqual(new UserNotFoundError(id));
 			});
 		});
 	});
@@ -72,13 +80,13 @@ describe(UserService, () => {
 	describe("all", () => {
 		describe("when db is empty", () => {
 			it("returns an empty array", async () => {
-				await expect(service.all()).resolves.toHaveLength(0);
+				expect(service.all()).resolves.toHaveLength(0);
 			});
 		});
 
 		it("lists all users", async () => {
 			const user = await service.create("joao");
-			await expect(service.all()).resolves.toEqual([user]);
+			expect(service.all()).resolves.toEqual([user]);
 		});
 	});
 });

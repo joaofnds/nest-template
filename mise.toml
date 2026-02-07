@@ -2,8 +2,7 @@
 CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
-node = "24.12.0"
-pnpm = "10.27.0"
+bun = "1.3.8"
 
 [tasks.up]
 run = ['docker compose up -d']
@@ -16,10 +15,9 @@ run = 'k6 run ./test/k6/load-test.ts'
 
 [tasks.ci]
 run = [
-  'pnpm run check',
-  'pnpm run build',
-  'pnpm run migrate down --to 0',
-  'pnpm run migrate up',
-  'pnpm run test',
-  'pnpm run test:e2e',
+  'bun run check',
+  'bun run migrate down --to 0',
+  'bun run migrate up',
+  'bun run test',
+  'bun run test:e2e',
 ]

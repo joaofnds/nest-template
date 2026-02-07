@@ -1,10 +1,12 @@
-import { NotFoundError as MikroNotFoundError } from "@mikro-orm/core";
-import { EntityManager } from "@mikro-orm/postgresql";
+import {
+	EntityManager,
+	NotFoundError as MikroNotFoundError,
+} from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
 import { NotFoundError } from "../errors/not-found.error";
 import { RepositoryError } from "../errors/repository.error";
 import { User } from "../user";
-import { UserRepository } from "../user.repository";
+import type { UserRepository } from "../user.repository";
 
 @Injectable()
 export class MikroUserRepository implements UserRepository {

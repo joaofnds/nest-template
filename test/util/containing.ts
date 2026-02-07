@@ -1,6 +1,8 @@
 import "test/assert-not-prod";
 
-export function containing(obj: unknown) {
+import { AsymmetricMatcher, expect } from "bun:test";
+
+export function containing<T>(obj: T): T | AsymmetricMatcher {
 	if (Array.isArray(obj)) {
 		return expect.arrayContaining(obj.map((o) => containing(o)));
 	}

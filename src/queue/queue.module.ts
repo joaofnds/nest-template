@@ -9,7 +9,11 @@ import { RedisModule } from "../redis/module";
 			imports: [RedisModule],
 			inject: [RedisConfig],
 			useFactory: (redisConfig: RedisConfig) => ({
-				connection: { url: redisConfig.url, family: redisConfig.family },
+				connection: {
+					url: redisConfig.url,
+					family: redisConfig.family,
+					maxRetriesPerRequest: null,
+				},
 			}),
 		}),
 	],

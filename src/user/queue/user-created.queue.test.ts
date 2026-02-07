@@ -1,3 +1,4 @@
+import { beforeAll, beforeEach, describe, expect, it, jest } from "bun:test";
 import { randomUUID } from "node:crypto";
 import { Queue } from "bullmq";
 import { UserCreatedEvent } from "../events/user-created.event";

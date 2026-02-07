@@ -1,19 +1,12 @@
 {
 	"compilerOptions": {
 		"strict": true,
-		"module": "commonjs",
-		"noEmit": true,
-		"declaration": true,
-		"removeComments": true,
+		"module": "esnext",
+		"target": "esnext",
+		"moduleResolution": "bundler",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"allowImportingTsExtensions": true,
-		"target": "es2022",
-		"sourceMap": true,
-		"outDir": "./dist",
-		"baseUrl": "./",
-		"incremental": true,
-		"skipLibCheck": true
+		"types": ["bun-types"],
+		"paths": { "src/*": ["./src/*"], "test/*": ["./test/*"] }
 	}
 }

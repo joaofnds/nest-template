@@ -5,22 +5,15 @@ RUN mise trust && mise install
 
 
 FROM base AS build
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
 COPY . .
-RUN pnpm run build
+RUN bun install --production
+RUN bun run build
 
 
-FROM base AS deps
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --prod
-
-
-FROM gcr.io/distroless/nodejs24:nonroot
+FROM oven/bun:1.3-distroless
 ENV NODE_ENV=production
 USER 1000
 WORKDIR /app
 COPY --from=build /app/dist/ .
-COPY --from=deps /app/node_modules/ ./node_modules
 EXPOSE 3000
 CMD ["main.js"]
