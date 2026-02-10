@@ -5,8 +5,9 @@ RUN mise trust && mise install
 
 
 FROM base AS build
-COPY . .
+COPY package.json bun.lock ./
 RUN bun install --production
+COPY . .
 RUN bun run build
 
 
