@@ -1,10 +1,5 @@
-FROM jdxcode/mise:2025.12 AS base
+FROM oven/bun:1.3 AS build
 WORKDIR /app
-COPY mise.toml ./
-RUN mise trust && mise install
-
-
-FROM base AS build
 COPY package.json bun.lock ./
 RUN bun install --production
 COPY . .
@@ -15,6 +10,7 @@ FROM oven/bun:1.3-distroless
 ENV NODE_ENV=production
 USER 1000
 WORKDIR /app
-COPY --from=build /app/dist/ .
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist/main.js ./main.js
 EXPOSE 3000
 CMD ["main.js"]

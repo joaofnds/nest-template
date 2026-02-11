@@ -16,6 +16,7 @@ run = 'k6 run ./test/k6/load-test.ts'
 [tasks.ci]
 run = [
   'bun run check',
+  'bun run build',
   'bun run migrate down --to 0',
   'bun run migrate up',
   'bun run test',
