@@ -14,7 +14,8 @@ export class MikroUserRepository implements UserRepository {
 
 	async persist(user: User): Promise<void> {
 		try {
-			await this.entityManager.persistAndFlush(user);
+			this.entityManager.persist(user);
+			await this.entityManager.flush();
 		} catch (error) {
 			throw new RepositoryError(`unknown error: ${error}`);
 		}

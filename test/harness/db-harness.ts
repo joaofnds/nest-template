@@ -20,6 +20,6 @@ export class DBHarness {
 	}
 
 	async clean(): Promise<void> {
-		await this.orm.schema.clearDatabase();
+		await this.orm.schema.clear();
 	}
 }

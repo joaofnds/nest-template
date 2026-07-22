@@ -11,7 +11,7 @@ async function withORM(f: (orm: MikroORM) => unknown) {
 	const app = await NestFactory.createApplicationContext(Migration, {
 		logger: false,
 	});
-	const orm = await app.resolve(MikroORM);
+	const orm = app.get<MikroORM>(MikroORM);
 	await f(orm);
 	await orm.close();
 	await app.close();
@@ -49,7 +49,7 @@ program
 		parseInteger,
 	)
 	.action(async (opt: MigratorOptions) => {
-		await withORM(async (o) => await o.getMigrator().up(parseOptions(opt)));
+		await withORM(async (o) => await o.migrator.up(parseOptions(opt)));
 	});
 
 program
@@ -61,15 +61,12 @@ program
 		parseInteger,
 	)
 	.action(async (opt) => {
-		await withORM(async (o) => await o.getMigrator().down(parseOptions(opt)));
+		await withORM(async (o) => await o.migrator.down(parseOptions(opt)));
 	});
 
 program.command("check").action(async () => {
 	await withORM(async (o) =>
-		console.log(
-			"migration needed?",
-			await o.getMigrator().checkMigrationNeeded(),
-		),
+		console.log("migration needed?", await o.migrator.checkSchema()),
 	);
 });
 
@@ -77,9 +74,7 @@ program
 	.command("create")
 	.argument("<name>", "name of the migration")
 	.action((name) =>
-		withORM((o) =>
-			o.getMigrator().createMigration("./src/migrations", true, false, name),
-		),
+		withORM((o) => o.migrator.create("./src/migrations", true, false, name)),
 	);
 
 program.parse();
