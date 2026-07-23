@@ -7,8 +7,18 @@ services:
       - POSTGRES_DB=template
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d template']
+      interval: 1s
+      timeout: 5s
+      retries: 30
 
   redis:
     image: redis:8-alpine
     ports:
       - 6379:6379
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 1s
+      timeout: 5s
+      retries: 30
