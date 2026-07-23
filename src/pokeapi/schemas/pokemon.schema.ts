@@ -7,3 +7,5 @@ export const PokemonSchema = z.object({
 	height: z.number().positive(),
 	weight: z.number().positive(),
 });
+
+export type Pokemon = z.infer<typeof PokemonSchema>;
