@@ -13,6 +13,7 @@
 		"start": "bun run --bun src/main.ts",
 		"start:dev": "bun run --bun --watch src/main.ts",
 		"test": "bun test",
+		"typecheck": "tsc --noEmit",
 		"test:unit": "bun test src",
 		"test:e2e": "bun test test"
 	},
@@ -53,8 +54,10 @@
 		"@types/bun": "^1.3.14",
 		"@types/express": "^5.0.6",
 		"@types/js-yaml": "^4.0.9",
+		"@types/k6": "^2.0.1",
 		"@types/lodash": "^4.17.24",
 		"@types/supertest": "^7.2.1",
-		"supertest": "^7.2.2"
+		"supertest": "^7.2.2",
+		"typescript": "^7.0.2"
 	}
 }

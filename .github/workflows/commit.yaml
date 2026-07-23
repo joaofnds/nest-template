@@ -35,6 +35,7 @@ jobs:
       - run: docker compose up -d &
       - run: bun install
       - run: bun run check
+      - run: bun run typecheck
       - run: bun run build
       - run: bun run migrate up
       - run: bun run test:unit
