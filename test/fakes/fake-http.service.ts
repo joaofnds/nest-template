@@ -7,7 +7,7 @@ import type {
 export class FakeHTTPService implements HTTPService {
 	readonly responses: Response[] = [];
 	readonly requests: {
-		method: "get" | "post" | "put";
+		method: "get" | "post" | "put" | "patch" | "delete";
 		url: string;
 		options?: RequestOptions;
 	}[] = [];

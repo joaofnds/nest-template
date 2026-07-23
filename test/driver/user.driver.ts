@@ -22,10 +22,12 @@ export class UserDriver extends Driver {
 
 	async list(): Promise<User[]> {
 		const response = await this.agent.get("/users");
-		return response.body.map((u) => this.parseUser(u));
+		return response.body.map((u: { id: string; name: string }) =>
+			this.parseUser(u),
+		);
 	}
 
-	private parseUser(body): User {
+	private parseUser(body: { id: string; name: string }): User {
 		return new User(body.id, body.name);
 	}
 }
