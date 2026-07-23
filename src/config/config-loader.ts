@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { YAML } from "bun";
-import { merge } from "lodash";
+import { merge } from "es-toolkit/compat";
 import { z } from "zod";
 import { AppConfig } from "./app.config";
 

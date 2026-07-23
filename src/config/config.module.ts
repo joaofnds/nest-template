@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { get } from "lodash";
+import { get } from "es-toolkit/compat";
 import { AppConfig } from "./app.config";
 import { ConfigLoader } from "./config-loader";
 
