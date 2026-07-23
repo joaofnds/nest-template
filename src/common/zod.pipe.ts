@@ -1,26 +1,19 @@
-import {
-	ArgumentMetadata,
-	BadRequestException,
-	HttpStatus,
-	PipeTransform,
-} from "@nestjs/common";
+import { BadRequestException, HttpStatus, PipeTransform } from "@nestjs/common";
 import { ZodType } from "zod";
 
 export class ZodPipe implements PipeTransform {
-	transform(value: unknown, { metatype }: ArgumentMetadata) {
-		if (!metatype || !(metatype instanceof ZodType)) {
-			return value;
-		}
+	constructor(private readonly schema: ZodType) {}
 
-		const parsedValue = metatype.safeParse(value);
+	transform(value: unknown) {
+		const result = this.schema.safeParse(value);
 
-		if (parsedValue.success) {
-			return parsedValue.data;
+		if (result.success) {
+			return result.data;
 		}
 
 		throw new BadRequestException({
 			statusCode: HttpStatus.BAD_REQUEST,
-			errors: parsedValue.error.issues.map((issue) => ({
+			errors: result.error.issues.map((issue) => ({
 				message: issue.message,
 				path: issue.path,
 			})),

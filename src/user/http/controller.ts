@@ -5,19 +5,17 @@ import {
 	Param,
 	ParseUUIDPipe,
 	Post,
-	UsePipes,
 } from "@nestjs/common";
 import { ZodPipe } from "src/common/zod.pipe";
 import { UserService } from "../user.service";
-import { createUserSchema } from "./schema/create-user.schema";
+import { type CreateUser, CreateUserSchema } from "./schema/create-user.schema";
 
 @Controller("/users")
-@UsePipes(new ZodPipe())
 export class UserController {
 	constructor(private readonly service: UserService) {}
 
 	@Post()
-	async createUser(@Body() { name }: createUserSchema) {
+	async createUser(@Body(new ZodPipe(CreateUserSchema)) { name }: CreateUser) {
 		return await this.service.create(name);
 	}
 
