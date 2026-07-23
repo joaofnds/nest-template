@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import { load as loadYAML } from "js-yaml";
+import { YAML } from "bun";
 import { merge } from "lodash";
 import { z } from "zod";
 import { AppConfig } from "./app.config";
@@ -30,6 +30,6 @@ export class ConfigLoader {
 	}
 
 	private loadConfig(path: string) {
-		return loadYAML(readFileSync(path, "utf8")) as Record<string, unknown>;
+		return YAML.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
 	}
 }
