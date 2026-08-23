@@ -1,4 +1,4 @@
-FROM oven/bun:1.3 AS build
+FROM oven/bun:1.4 AS build
 WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --production
@@ -6,7 +6,7 @@ COPY . .
 RUN bun run build
 
 
-FROM oven/bun:1.3-distroless
+FROM oven/bun:1.4-distroless
 ENV NODE_ENV=production
 USER 1000
 WORKDIR /app

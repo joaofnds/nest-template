@@ -2,7 +2,7 @@
 CONFIG_PATH = './src/config/development.yaml'
 
 [tools]
-bun = "1.3.14"
+bun = "1.4.0"
 
 [tasks.up]
 run = ['docker compose up -d']
